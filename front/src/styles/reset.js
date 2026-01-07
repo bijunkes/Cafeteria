@@ -19,7 +19,7 @@ body {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-button, input, h1, h2, h3, h4, h5, h6, div {
+button, input, h1, h2, h3, h4, h5, h6, div, span {
     transition: color 0.7s ease, background-color 0.7s ease;
 }
 

@@ -1,10 +1,16 @@
-import React from "react";
-import { Background, Hero, OverlayHero, ContentHero, Top, Title, Theme, Search, SearchInput, Footer, FooterButton } from "./styles";
+import React, { useState } from "react";
+import { scroll } from "../../components/scroll";
+import { Background, Hero, OverlayHero, ContentHero, Top, Title, Theme, Search, SearchInput, Classes, Class, Options, Option, OptionText, Menu, MenuTitle, Items, Item, ItemImage, ItemText, ItemPrice, Footer, FooterButton } from "./styles";
 
 function Home({ toggleTheme, themeAtual }) {
+    const categories = ["Favoritos", "Clássicos", "Com leite", "Especiais", "Gelados"];
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const showBars = scroll();
+
     return (
         <Background>
-            <Hero>
+            <Hero $visible={showBars} >
                 <OverlayHero>
                     <ContentHero>
                         <Top>
@@ -24,7 +30,59 @@ function Home({ toggleTheme, themeAtual }) {
                     </ContentHero>
                 </OverlayHero>
             </Hero>
-            <Footer>
+
+            <Classes>
+                {categories.map((cat, index) => (
+                    <Class
+                        key={cat}
+                        active={index === activeIndex}
+                        onClick={() => setActiveIndex(index)}
+                    >
+                        {cat}
+                    </Class>
+                ))}
+            </Classes>
+
+            <Options>
+                <Option>
+                    <OptionText>
+                        Expresso
+                    </OptionText>
+                </Option>
+                <Option>
+                    <OptionText>
+                        Expresso
+                    </OptionText>
+                </Option>
+                <Option>
+                    <OptionText>
+                        Expresso
+                    </OptionText>
+                </Option>
+            </Options>
+
+            <Menu>
+                <MenuTitle>
+                    Cardápio
+                </MenuTitle>
+                <Items>
+                    <Item>
+                        <ItemImage>
+                            A
+                        </ItemImage>
+                        <ItemText>
+                            <span className="name">Expresso</span>
+                            <span className="class">Clássico</span>
+                        </ItemText>
+                        <ItemPrice>
+                            <span className="currency">R$</span>
+                            <span className="value">6</span>
+                        </ItemPrice>
+                    </Item>
+                </Items>
+            </Menu>
+
+            <Footer $visible={showBars} >
                 <FooterButton>
                     <span className="material-icons-outlined">
                         {"home"}
