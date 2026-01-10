@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/authContext";
 import { scroll } from "../../components/scroll";
-import { Background, Hero, OverlayHero, ContentHero, Top, Title, Theme, Search, SearchInput, Classes, Class, Options, Option, OptionText, Menu, MenuTitle, Items, Item, ItemImage, ItemText, ItemPrice, Footer, FooterButton } from "./styles";
+import { Classes, Class, Options, Option, OptionText, Menu, MenuTitle, Items, Item, ItemImage, ItemText, ItemPrice } from "./styles";
+
+import HeroComponent from "../../components/Hero";
+import FooterComponent from "../../components/Footer";
+import BackgroundComponent from "../../components/Background";
 
 function Home({ toggleTheme, themeAtual }) {
     const categories = ["Favoritos", "Clássicos", "Com leite", "Especiais", "Gelados"];
@@ -8,29 +14,17 @@ function Home({ toggleTheme, themeAtual }) {
 
     const showBars = scroll();
 
-    return (
-        <Background>
-            <Hero $visible={showBars} >
-                <OverlayHero>
-                    <ContentHero>
-                        <Top>
-                            <Title>Cafe Shop</Title>
-                            <Theme onClick={toggleTheme}>
-                                <span className="material-icons-outlined">
-                                    {themeAtual === "light" ? "light_mode" : "dark_mode"}
-                                </span>
-                            </Theme>
-                        </Top>
-                        <Search>
-                            <span className="material-icons-outlined">
-                                {"search"}
-                            </span>
-                            <SearchInput placeholder="Pesquisar" />
-                        </Search>
-                    </ContentHero>
-                </OverlayHero>
-            </Hero>
+    const navigate = useNavigate();
+    const { user } = useAuth();
 
+    return (
+        <BackgroundComponent>
+            <HeroComponent
+                visible={showBars}
+                toggleTheme={toggleTheme}
+                themeAtual={themeAtual}
+                showSearch={true}
+            />
             <Classes>
                 {categories.map((cat, index) => (
                     <Class
@@ -82,27 +76,17 @@ function Home({ toggleTheme, themeAtual }) {
                 </Items>
             </Menu>
 
-            <Footer $visible={showBars} >
-                <FooterButton>
-                    <span className="material-icons-outlined">
-                        {"home"}
-                    </span>
-                    Home
-                </FooterButton>
-                <FooterButton>
-                    <span className="material-icons-outlined">
-                        {"shopping_bag"}
-                    </span>
-                    Sacola
-                </FooterButton>
-                <FooterButton>
-                    <span className="material-icons-outlined">
-                        {"person"}
-                    </span>
-                    Perfil
-                </FooterButton>
-            </Footer>
-        </Background>
+            <FooterComponent
+                visible={showBars}
+                onProfileClick={() => {
+                    if (!user) {
+                        navigate("/login");
+                    } else {
+                        navigate("/profile");
+                    }
+                }}
+            />
+        </BackgroundComponent>
     )
 }
 
