@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
 
@@ -7,12 +7,14 @@ import HeroComponent from '../../components/Hero';
 import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
 
-import { Content, Title, Input, InputContent, ForgotPassword, LoginButton, SignUp } from './styles';
+import { Content, Title, Input, InputContent, ForgotPassword, Button, Sign } from './styles';
 
 function Login({ toggleTheme, themeAtual }) {
     const showBars = scroll();
     const navigate = useNavigate();
     const { user } = useAuth();
+
+    const [showPassword, setShowPassword] = useState(false);
 
     return (
         <BackgroundComponent>
@@ -21,38 +23,48 @@ function Login({ toggleTheme, themeAtual }) {
                 toggleTheme={toggleTheme}
                 showSearch={false}
             />
+
             <Content>
                 <Title>
                     Login
                 </Title>
+
                 <Input>
                     <span className="material-icons-outlined" style={{fontSize:"18px"}}>
                         {"mail"}
                     </span>
                     <InputContent placeholder="Email" />
                 </Input>
+
                 <Input>
                     <span className="material-icons-outlined" style={{fontSize:"18px"}}>
                         {"lock"}
                     </span>
-                    <InputContent placeholder="Senha" />
+
+                    <InputContent 
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Senha" />
+
+                    <span
+                        className="material-icons-outlined" style={{fontSize:"18px", cursor:"pointer"}}
+                        onClick={() => setShowPassword(prev =>!prev)}
+                    >
+                        {showPassword ? "visibility_off" : "visibility"}
+                    </span>
                 </Input>
+                
                 <ForgotPassword>Esqueceu a senha?</ForgotPassword>
-                <LoginButton>Login</LoginButton>
-                <SignUp>
+
+                <Button>Login</Button>
+
+                <Sign>
                     Não possui cadastro?
-                    <span> Sign Up</span>
-                </SignUp>
+                    <span onClick={() => navigate("/signup")}> Sign Up</span>
+                </Sign>
             </Content>
+
             <FooterComponent
                 visible={showBars}
-                onProfileClick={() => {
-                    if (!user) {
-                        navigate("/login");
-                    } else {
-                        navigate("/profile");
-                    }
-                }}
             />
         </BackgroundComponent>
     );

@@ -31,7 +31,7 @@ function FooterComponent({ visible, onProfileClick }) {
             </FooterButton>
 
             <FooterButton
-                active={isActive("/login") || isActive("/profile")}
+                active={isActive("/login") || isActive("/profile") || isActive("/signup")}
                 onClick={onProfileClick}
             >
                 <span className="material-icons-outlined">

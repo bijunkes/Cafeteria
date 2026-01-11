@@ -10,6 +10,7 @@ import { AuthProvider } from './contexts/authContext';
 import Home from './containers/Home';
 import Login from './containers/Login';
 import Profile from './containers/Profile';
+import SignUp from './containers/SignUp';
 
 function App() {
     const [theme, setTheme] = useState("light");
@@ -42,6 +43,15 @@ function App() {
                                 <PrivateRoute>
                                     <Profile/>
                                 </PrivateRoute>
+                            }
+                        />
+
+                        <Route
+                            path="/signup"
+                            element={
+                                <SignUp
+                                    toggleTheme={() => setTheme(prev => (prev === "light" ? "dark" : "light"))}
+                                />
                             }
                         />
                     </Routes>

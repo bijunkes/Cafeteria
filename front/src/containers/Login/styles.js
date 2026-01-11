@@ -5,17 +5,22 @@ export const Content = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 100%;
     min-height: calc(100vh - 15vh - 12vh);
+    padding: 4vh;
+    cursor: default;
+    gap: 2vh;
 `;
 
 export const Title = styled.h2`
+    align-self: flex-start;
     font-size: 20px;
     color: ${({ theme }) => theme.colors.text};
 `;
 
 export const Input = styled.div `
     height: 6vh;
-    width: calc(100% - 8vh);
+    width: 100%;
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -38,11 +43,17 @@ export const InputContent = styled.input`
 export const ForgotPassword = styled.div`
     font-size: 12px;
     color: ${({ theme }) => theme.colors.text};
+    cursor: pointer;
+    align-self: flex-end;
+
+    &:hover{
+        font-weight: 600;
+    }
 `;
 
-export const LoginButton = styled.div`
+export const Button = styled.div`
     height: 6vh;
-    width: calc(100% - 8vh);
+    width: 100%;
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -51,11 +62,13 @@ export const LoginButton = styled.div`
     font-weight: 600;
     cursor: pointer;
     background-color: ${({ theme }) => theme.colors.primary};
+    margin-top: 5vh;
 `;
 
-export const SignUp = styled.div`
-    font-size: 16px;
+export const Sign = styled.div`
+    font-size: 14px;
     color: ${({ theme }) => theme.colors.text};
+    margin-top: 5vh;
     span{
         font-weight: 700;
         cursor: pointer;
