@@ -5,7 +5,7 @@ export const Hero = styled.section`
     position: sticky;
     top: 0;
     width: 100%;
-    height: 17vh;
+    height: 15vh;
     z-index: 1;
 
     &::before {
@@ -69,7 +69,7 @@ export const Theme = styled.button`
     margin-left: auto;
 
     font-size: 20px;
-    color: ${({ theme }) => theme.colors.text};;
+    color: ${({ theme }) => theme.colors.text};
     background-color: ${({ theme }) => theme.colors.primary};
 `;
 
@@ -77,7 +77,7 @@ export const Search = styled.div `
     position: absolute  ;
     height: 6vh;
     width: calc(100% - 8vh);
-    bottom: 1vh;
+    bottom: 0vh;
     border-radius: 20px;
     display: flex;
     align-items: center;

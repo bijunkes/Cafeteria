@@ -22,7 +22,6 @@ function Home({ toggleTheme, themeAtual }) {
             <HeroComponent
                 visible={showBars}
                 toggleTheme={toggleTheme}
-                themeAtual={themeAtual}
                 showSearch={true}
             />
             <Classes>

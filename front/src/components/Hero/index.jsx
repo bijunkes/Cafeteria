@@ -1,7 +1,10 @@
 import React from "react";
+import { useTheme } from "styled-components";
 import { Hero, OverlayHero, ContentHero, Top, Title, Theme, Search, SearchInput } from "./styles";
 
-function HeroComponent({ visible, toggleTheme, themeAtual, showSearch = true }) {
+function HeroComponent({ visible, toggleTheme, showSearch = true }) {
+    const theme = useTheme();
+
     return (
         <Hero $visible={visible} >
             <OverlayHero>
@@ -10,7 +13,7 @@ function HeroComponent({ visible, toggleTheme, themeAtual, showSearch = true }) 
                         <Title>Cafe Shop</Title>
                         <Theme onClick={toggleTheme}>
                             <span className="material-icons-outlined">
-                                {themeAtual?.name === "light" ? "dark_mode" : "light_mode"}
+                                {theme.name === "light" ? "light_mode" : "dark_mode"}
                             </span>
 
                         </Theme>

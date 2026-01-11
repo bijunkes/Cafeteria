@@ -26,12 +26,15 @@ function App() {
                             element={
                                 <Home
                                     toggleTheme={() => setTheme(prev => (prev === "light" ? "dark" : "light"))}
-                                    themeAtual={theme}
                                 />
                             }
                         />
 
-                        <Route path="login" element={<Login/>}/>
+                        <Route path="login" element={
+                            <Login
+                                toggleTheme={() => setTheme(prev => (prev === "light" ? "dark" : "light"))}
+                            />
+                        }/>
 
                         <Route
                             path="/profile"
