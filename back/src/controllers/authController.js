@@ -48,10 +48,8 @@ export async function login(req, res) {
             return res.status(400).json({error: "Campos obrigatórios"});
         }
 
-        const emailNormalized = email.trim().toLowerCase();
-
         const user = await prisma.user.findUnique({
-            where: {emailNormalized},
+            where: {email: email.toLowerCase().trim()},
             select: {id: true, name: true, email: true, password: true}
         });
 
@@ -76,6 +74,7 @@ export async function login(req, res) {
             token
         });
     } catch (err) {
+        console.log(err);
         res.status(500).json({error: "Erro no servidor"});
     }
 }

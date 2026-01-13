@@ -6,13 +6,14 @@ export function authenticateToken(req, res, next) {
         return res.status(401).json({error: "Token não enviado"});
     }
 
-    const [, token] = authHeader.split("");
+    const [, token] = authHeader.split(" ");
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.userId = decoded.userId;
         next();
-    } catch {
+    } catch (err) {
+        console.log(err)
         return res.status(401).json({error: "Token inválido"});
     }
 }
