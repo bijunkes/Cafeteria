@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
 
@@ -10,7 +10,7 @@ import { scroll } from "../../components/scroll";
 import { Content, Title, Input, InputContent, ForgotPassword, Button, Sign } from './styles';
 import { authService } from '../../services/auth';
 
-function Login({ toggleTheme, themeAtual }) {
+function Login({ toggleTheme }) {
     const showBars = scroll();
     const navigate = useNavigate();
     const { login } = useAuth();
@@ -79,7 +79,7 @@ function Login({ toggleTheme, themeAtual }) {
 
                 <Sign>
                     Não possui cadastro?
-                    <span onClick={() => navigate("/signup")}> Sign Up</span>
+                    <span onClick={() => navigate("/register")}> Sign Up</span>
                 </Sign>
             </Content>
 

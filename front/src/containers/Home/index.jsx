@@ -8,7 +8,7 @@ import HeroComponent from "../../components/Hero";
 import FooterComponent from "../../components/Footer";
 import BackgroundComponent from "../../components/Background";
 
-function Home({ toggleTheme, themeAtual }) {
+function Home({ toggleTheme }) {
     const categories = ["Favoritos", "Clássicos", "Com leite", "Especiais", "Gelados"];
     const [activeIndex, setActiveIndex] = useState(0);
 

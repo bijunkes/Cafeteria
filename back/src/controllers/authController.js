@@ -74,7 +74,6 @@ export async function login(req, res) {
             token
         });
     } catch (err) {
-        console.log(err);
         res.status(500).json({error: "Erro no servidor"});
     }
 }

@@ -13,7 +13,6 @@ export function authenticateToken(req, res, next) {
         req.userId = decoded.userId;
         next();
     } catch (err) {
-        console.log(err)
         return res.status(401).json({error: "Token inválido"});
     }
 }
