@@ -8,10 +8,13 @@ import HeroComponent from "../../components/Hero";
 import FooterComponent from "../../components/Footer";
 
 import { Content, Title, Input, InputContent, Button, Sign } from '../Login/styles.js';
+import { authService } from "../../services/auth.js";
+import { useAuth } from "../../contexts/authContext.jsx";
 
 function SignUp({ toggleTheme, themeAtual }) {
     const showBars = scroll();
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -20,24 +23,21 @@ function SignUp({ toggleTheme, themeAtual }) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    function handleSignUp() {
-        if (!name || !email || !password || !confirmPassword) {
-            alert("Preencha todos os campos");
-            return;
-        }
-
+    async function handleSignUp() {
         if (password !== confirmPassword) {
             alert("As senhas não coincidem");
             return;
         }
-        const user = {
-            name, email, password
+        try {
+            const {data} = await authService.register({
+                name, email, password
+            });
+
+            login(data.user, data.token);
+            navigate("/profile");
+        } catch (err) {
+            alert(err.response?.data?.error || "Erro ao cadastrar");
         }
-
-        localStorage.setItem("user", JSON.stringify(user));
-
-        alert("Cadastro realizado");
-        navigate("/login");
     }
 
     return (

@@ -15,7 +15,7 @@ export function AuthProvider({children}) {
         }
 
         try {
-            const response = await fetch("http://localhost:3000/me", {
+            const response = await fetch("http://localhost:3000/users/me", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -33,12 +33,22 @@ export function AuthProvider({children}) {
         }
     }
 
+    function login(user, token) {
+        localStorage.setItem("token", token);
+        setUser(user);
+    }
+
+    function logout() {
+        localStorage.removeItem("token");
+        setUser(null);
+    }
+
     useEffect(() => {
         loadUser();
     }, []);
 
     return (
-        <AuthContext.Provider value={{user, setUser, loading}}>
+        <AuthContext.Provider value={{user, loading, login, logout}}>
             {children}
         </AuthContext.Provider>
     );

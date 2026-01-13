@@ -8,13 +8,29 @@ import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
 
 import { Content, Title, Input, InputContent, ForgotPassword, Button, Sign } from './styles';
+import { authService } from '../../services/auth';
 
 function Login({ toggleTheme, themeAtual }) {
     const showBars = scroll();
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { login } = useAuth();
 
     const [showPassword, setShowPassword] = useState(false);
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    async function handleLogin() {
+        try {
+            const {data} = await authService.login({
+                email, password
+            });
+            login(data.user, data.token);
+            navigate("/profile");
+        } catch (err) {
+            alert(err.response?.data?.error || "Erro ao cadastrar");
+        }
+    }
 
     return (
         <BackgroundComponent>
@@ -33,7 +49,9 @@ function Login({ toggleTheme, themeAtual }) {
                     <span className="material-icons-outlined" style={{fontSize:"18px"}}>
                         {"mail"}
                     </span>
-                    <InputContent placeholder="Email" />
+                    <InputContent placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)} />
                 </Input>
 
                 <Input>
@@ -43,7 +61,9 @@ function Login({ toggleTheme, themeAtual }) {
 
                     <InputContent 
                     type={showPassword ? "text" : "password"}
-                    placeholder="Senha" />
+                    placeholder="Senha"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)} />
 
                     <span
                         className="material-icons-outlined" style={{fontSize:"18px", cursor:"pointer"}}
@@ -55,7 +75,7 @@ function Login({ toggleTheme, themeAtual }) {
                 
                 <ForgotPassword>Esqueceu a senha?</ForgotPassword>
 
-                <Button>Login</Button>
+                <Button onClick={() => handleLogin()}>Login</Button>
 
                 <Sign>
                     Não possui cadastro?

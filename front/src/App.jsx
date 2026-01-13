@@ -16,6 +16,10 @@ function App() {
     const [theme, setTheme] = useState("light");
     const themeAtual = theme === "light" ? light : dark;
 
+    function toggleTheme() {
+        setTheme(prev => (prev === "light" ? "dark" : "light"));
+    }
+
     return (
         <ThemeProvider theme={themeAtual}>
             <GlobalStyle />
@@ -26,14 +30,14 @@ function App() {
                             path="/"
                             element={
                                 <Home
-                                    toggleTheme={() => setTheme(prev => (prev === "light" ? "dark" : "light"))}
+                                    toggleTheme={toggleTheme}
                                 />
                             }
                         />
 
-                        <Route path="login" element={
+                        <Route path="/login" element={
                             <Login
-                                toggleTheme={() => setTheme(prev => (prev === "light" ? "dark" : "light"))}
+                                toggleTheme={toggleTheme}
                             />
                         }/>
 
@@ -47,10 +51,10 @@ function App() {
                         />
 
                         <Route
-                            path="/signup"
+                            path="/register"
                             element={
                                 <SignUp
-                                    toggleTheme={() => setTheme(prev => (prev === "light" ? "dark" : "light"))}
+                                    toggleTheme={toggleTheme}
                                 />
                             }
                         />
