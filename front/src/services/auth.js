@@ -11,6 +11,10 @@ export const authService = {
 
     me() {
         return api.get("/users/me");
+    }, 
+
+    me(data) {
+        return api.put("/users/me");
     }
 }
 

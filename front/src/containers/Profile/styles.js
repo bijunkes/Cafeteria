@@ -41,20 +41,24 @@ export const InputContent = styled.input`
     color: ${({ theme }) => theme.colors.text};
 `;
 
-export const Save = styled.button `
+export const Save = styled.button`
     height: 6vh;
     width: 50%;
     border-radius: 20px;
     display: flex;
     align-items: center;
-    padding: 0vh 2vh;
-    gap: 1vh;
-    font-size: 15px;
     justify-content: center;
+    font-size: 15px;
     align-self: flex-end;
-    
+
     color: ${({ theme }) => theme.colors.text};
     background-color: ${({ theme }) => theme.colors.secondary};
+
+    opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+
+    transition: opacity 1s ease, transform 1s ease;
+
+    pointer-events: ${({ $visible }) => ($visible ? "auto" : "none")};
 `;
 
 export const Side = styled.div`
@@ -91,6 +95,7 @@ export const Admin = styled.div`
     font-size: 15px;
     justify-content: center;
     margin-left: auto;
+    cursor: pointer;
     
     color: ${({ theme }) => theme.colors.text};
     background-color: ${({ theme }) => theme.colors.secondary};

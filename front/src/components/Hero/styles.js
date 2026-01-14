@@ -7,6 +7,7 @@ export const Hero = styled.section`
     width: 100%;
     height: 15vh;
     z-index: 1;
+    cursor: default;
 
     &::before {
         content: "";
