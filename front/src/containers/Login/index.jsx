@@ -28,7 +28,7 @@ function Login({ toggleTheme }) {
             login(data.user, data.token);
             navigate("/profile");
         } catch (err) {
-            alert(err.response?.data?.error || "Erro ao cadastrar");
+            alert(err.response?.data?.error || "Erro ao fazer login");
         }
     }
 

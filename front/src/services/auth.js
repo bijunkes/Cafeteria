@@ -2,7 +2,7 @@ import api from "./api";
 
 export const authService = {
     login(data) {
-        return api.post("auth/login", data);
+        return api.post("/auth/login", data);
     },
 
     register(data) {
@@ -13,3 +13,9 @@ export const authService = {
         return api.get("/users/me");
     }
 }
+
+export const productService = {
+    testAdmin() {
+        return api.post("/products");
+    }
+};

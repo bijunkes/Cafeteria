@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './routes/PrivateRoute';
+import AdminRoute from './routes/AdminRoute';
 
 import GlobalStyle from './styles/reset';
 import { light, dark } from './styles/themes'
@@ -11,6 +12,7 @@ import Home from './containers/Home';
 import Login from './containers/Login';
 import Profile from './containers/Profile';
 import SignUp from './containers/SignUp';
+import Products from './containers/Products';
 
 function App() {
     const [theme, setTheme] = useState("light");
@@ -39,7 +41,7 @@ function App() {
                             <Login
                                 toggleTheme={toggleTheme}
                             />
-                        }/>
+                        } />
 
                         <Route
                             path="/profile"
@@ -58,6 +60,17 @@ function App() {
                                 <SignUp
                                     toggleTheme={toggleTheme}
                                 />
+                            }
+                        />
+
+                        <Route
+                            path="/products"
+                            element={
+                                <AdminRoute>
+                                    <Products
+                                        toggleTheme={toggleTheme}
+                                    />
+                                </AdminRoute>
                             }
                         />
                     </Routes>
