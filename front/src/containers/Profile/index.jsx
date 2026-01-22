@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
 import api from '../../services/api';
-import { productService } from '../../services/auth';
 
 import { scroll } from "../../components/scroll";
 

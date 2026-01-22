@@ -13,6 +13,9 @@ import Login from './containers/Login';
 import Profile from './containers/Profile';
 import SignUp from './containers/SignUp';
 import Products from './containers/Products';
+import CreateProduct from './containers/Products/Create';
+import EditProduct from './containers/Products/Edit';
+import DeleteProduct from './containers/Products/Delete';
 
 function App() {
     const [theme, setTheme] = useState("light");
@@ -31,25 +34,19 @@ function App() {
                         <Route
                             path="/"
                             element={
-                                <Home
-                                    toggleTheme={toggleTheme}
-                                />
+                                <Home toggleTheme={toggleTheme}/>
                             }
                         />
 
                         <Route path="/login" element={
-                            <Login
-                                toggleTheme={toggleTheme}
-                            />
+                            <Login toggleTheme={toggleTheme}/>
                         } />
 
                         <Route
                             path="/profile"
                             element={
                                 <PrivateRoute>
-                                    <Profile
-                                        toggleTheme={toggleTheme}
-                                    />
+                                    <Profile toggleTheme={toggleTheme}/>
                                 </PrivateRoute>
                             }
                         />
@@ -57,9 +54,7 @@ function App() {
                         <Route
                             path="/register"
                             element={
-                                <SignUp
-                                    toggleTheme={toggleTheme}
-                                />
+                                <SignUp toggleTheme={toggleTheme}/>
                             }
                         />
 
@@ -67,9 +62,34 @@ function App() {
                             path="/products"
                             element={
                                 <AdminRoute>
-                                    <Products
-                                        toggleTheme={toggleTheme}
-                                    />
+                                    <Products toggleTheme={toggleTheme}/>
+                                </AdminRoute>
+                            }
+                        />
+
+                        <Route
+                            path="/products/create"
+                            element={
+                                <AdminRoute>
+                                    <CreateProduct toggleTheme={toggleTheme}/>
+                                </AdminRoute>
+                            }
+                        />
+
+                        <Route
+                            path="/products/edit/:id"
+                            element={
+                                <AdminRoute>
+                                    <EditProduct toggleTheme={toggleTheme}/>
+                                </AdminRoute>
+                            }
+                        />
+
+                        <Route
+                            path="/products/delete/:id"
+                            element={
+                                <AdminRoute>
+                                    <DeleteProduct toggleTheme={toggleTheme}/>
                                 </AdminRoute>
                             }
                         />

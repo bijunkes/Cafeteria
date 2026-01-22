@@ -17,9 +17,3 @@ export const authService = {
         return api.put("/users/me");
     }
 }
-
-export const productService = {
-    testAdmin() {
-        return api.post("/products");
-    }
-};
