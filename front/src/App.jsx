@@ -77,7 +77,7 @@ function App() {
                         />
 
                         <Route
-                            path="/products/edit/:id"
+                            path="/products/edit"
                             element={
                                 <AdminRoute>
                                     <EditProduct toggleTheme={toggleTheme}/>
@@ -86,7 +86,7 @@ function App() {
                         />
 
                         <Route
-                            path="/products/delete/:id"
+                            path="/products/delete"
                             element={
                                 <AdminRoute>
                                     <DeleteProduct toggleTheme={toggleTheme}/>

@@ -57,7 +57,6 @@ function Profile({ toggleTheme }) {
         }
     }
 
-
     function handleLogout() {
         logout();
         navigate("/login");

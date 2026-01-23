@@ -6,7 +6,8 @@ import BackgroundComponent from '../../components/Background';
 import HeroComponent from '../../components/Hero';
 import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
-import { Button } from "./styles";
+import { Title, Button } from "./styles";
+import { Content } from "../Login/styles";
 
 function Products({ toggleTheme }) {
     const showBars = scroll();
@@ -19,9 +20,12 @@ function Products({ toggleTheme }) {
                 toggleTheme={toggleTheme}
                 showSearch={false}
             />
-            <Button>Cadastrar</Button>
-            <Button>Editar</Button>
-            <Button>Excluir</Button>
+            <Content>
+                <Title>Produtos</Title>
+                <Button onClick={() => navigate("/products/create")}>Cadastrar</Button>
+                <Button onClick={() => navigate("/products/edit")}>Editar</Button>
+                <Button onClick={() => navigate("/products/delete")}>Excluir</Button>
+            </Content>
             <FooterComponent
                 visible={showBars}
                 onProfileClick={() => navigate("/profile")}
