@@ -22,10 +22,14 @@ function Profile({ toggleTheme }) {
     const [email, setEmail] = useState(`${user?.email}`);
     const [password, setPassword] = useState("");
 
+    const [hasLoaded, setHasLoaded] = useState(false);
+
     const hasChanges =
-        name !== originalUser?.name ||
-        email !== originalUser?.email ||
-        password.length > 0;
+        hasLoaded && (
+            name !== originalUser?.name ||
+            email !== originalUser?.email ||
+            password.length > 0
+        );
 
     async function handleSave() {
         if (!originalUser) return;
@@ -67,6 +71,7 @@ function Profile({ toggleTheme }) {
             setName(user.name);
             setEmail(user.email);
             setOriginalUser(user);
+            setHasLoaded(true);
         }
     }, [user]);
 
@@ -104,7 +109,7 @@ function Profile({ toggleTheme }) {
                             onChange={(e) => setPassword(e.target.value)} />
                     </Input>
                 </Field>
-                    <Save onClick={handleSave} $visible={hasChanges}>Salvar</Save>
+                <Save onClick={handleSave} $visible={hasChanges}>Salvar</Save>
                 <Side>
                     <Logout onClick={handleLogout}>
                         <span className="material-icons-outlined" style={{ fontSize: "18px" }}>

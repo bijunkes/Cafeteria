@@ -2,7 +2,7 @@ import prisma from "../../prisma/client.js";
 
 export async function create(req, res) {
     try {
-        const { name, description, imageUrl, options } = req.body;
+        const { name, description, imageUrl, type, recommended = false, inStock = true, options } = req.body;
 
         if (!name || !description || !Array.isArray(options) || options.length === 0) {
             return res.status(400).json({ error: "Campos obrigatórios" });
@@ -25,11 +25,17 @@ export async function create(req, res) {
                 name,
                 description,
                 imageUrl,
+                type,
+                recommended,
+                inStock,
                 options: {
-                    create: options
+                    create: options.map(opt => ({
+                        size: opt.size,
+                        price: opt.price
+                    }))
                 }
             },
-            include: {options: true}
+            include: { options: true }
         });
 
         return res.status(201).json(product);
@@ -41,7 +47,7 @@ export async function create(req, res) {
 export async function list(req, res) {
     try {
         const products = await prisma.product.findMany({
-            include: {options: true}
+            include: { options: true }
         });
 
         return res.json(products);
@@ -55,8 +61,8 @@ export async function getProduct(req, res) {
         const { id } = req.params;
 
         const product = await prisma.product.findUnique({
-            where: {id: Number(id)},
-            include: {options: true}
+            where: { id: Number(id) },
+            include: { options: true }
         });
 
         if (!product) {
