@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Container } from '../Background/styles';
 
 export const Footer = styled.div`
     position: fixed;
@@ -19,6 +20,11 @@ export const Footer = styled.div`
     $visible ? "translateY(0)" : "translateY(110%)"};
 
     transition: transform 1s ease;
+`;
+
+export const FooterContent = styled(Container)`
+  display: flex;
+  justify-content: space-around;
 `;
 
 export const FooterButton = styled.div`

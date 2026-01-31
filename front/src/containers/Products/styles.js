@@ -1,5 +1,16 @@
 import styled from "styled-components";
 
+export const ScrollContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 4vh;
+    cursor: default;
+    gap: 3vh;
+`;
+
 export const Title = styled.button`
     font-size: 22px;
     margin-bottom: 1vh;

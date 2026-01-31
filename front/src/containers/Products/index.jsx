@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from "../../services/api";
 
 import BackgroundComponent from '../../components/Background';
+import { Container } from "../../components/Background/styles";
 import HeroComponent from '../../components/Hero';
 import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
@@ -20,12 +21,14 @@ function Products({ toggleTheme }) {
                 toggleTheme={toggleTheme}
                 showSearch={false}
             />
-            <Content>
-                <Title>Produtos</Title>
-                <Button onClick={() => navigate("/products/create")}>Cadastrar</Button>
-                <Button onClick={() => navigate("/products/edit")}>Editar</Button>
-                <Button onClick={() => navigate("/products/delete")}>Excluir</Button>
-            </Content>
+            <Container>
+                <Content style={{gap: '4vh'}}>
+                    <Title>Produtos</Title>
+                    <Button onClick={() => navigate("/products/create")}>Cadastrar</Button>
+                    <Button onClick={() => navigate("/products/edit")}>Editar</Button>
+                    <Button onClick={() => navigate("/products/delete")}>Excluir</Button>
+                </Content>
+            </Container>
             <FooterComponent
                 visible={showBars}
                 onProfileClick={() => navigate("/profile")}

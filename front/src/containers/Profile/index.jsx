@@ -8,6 +8,7 @@ import { scroll } from "../../components/scroll";
 import HeroComponent from "../../components/Hero";
 import FooterComponent from "../../components/Footer";
 import BackgroundComponent from "../../components/Background";
+import { Container } from '../../components/Background/styles.js';
 
 import { Content, Title } from '../Login/styles.js';
 import { Field, Label, Input, InputContent, Save, Side, Logout, Admin } from './styles.js';
@@ -82,49 +83,51 @@ function Profile({ toggleTheme }) {
                 toggleTheme={toggleTheme}
                 showSearch={false}
             />
-            <Content>
-                <Title>
-                    Perfil
-                </Title>
-                <Field>
-                    <Label>Nome</Label>
-                    <Input>
-                        <InputContent value={name}
-                            onChange={(e) => setName(e.target.value)} />
-                    </Input>
-                </Field>
-                <Field>
-                    <Label>Email</Label>
-                    <Input>
-                        <InputContent value={email}
-                            onChange={(e) => setEmail(e.target.value)} />
-                    </Input>
-                </Field>
-                <Field>
-                    <Label>Senha</Label>
-                    <Input>
-                        <InputContent
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)} />
-                    </Input>
-                </Field>
-                <Save onClick={handleSave} $visible={hasChanges}>Salvar</Save>
-                <Side>
-                    <Logout onClick={handleLogout}>
-                        <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
-                            {"logout"}
-                        </span>
-                    </Logout>
-                    {user?.role === "admin" && (
-                        <Admin onClick={() => navigate("/products")}>
+            <Container>
+                <Content>
+                    <Title>
+                        Perfil
+                    </Title>
+                    <Field>
+                        <Label>Nome</Label>
+                        <Input>
+                            <InputContent value={name}
+                                onChange={(e) => setName(e.target.value)} />
+                        </Input>
+                    </Field>
+                    <Field>
+                        <Label>Email</Label>
+                        <Input>
+                            <InputContent value={email}
+                                onChange={(e) => setEmail(e.target.value)} />
+                        </Input>
+                    </Field>
+                    <Field>
+                        <Label>Senha</Label>
+                        <Input>
+                            <InputContent
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)} />
+                        </Input>
+                    </Field>
+                    <Save onClick={handleSave} $visible={hasChanges}>Salvar</Save>
+                    <Side>
+                        <Logout onClick={handleLogout}>
                             <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
-                                {"settings"}
+                                {"logout"}
                             </span>
-                        </Admin>
-                    )}
-                </Side>
-            </Content>
+                        </Logout>
+                        {user?.role === "admin" && (
+                            <Admin onClick={() => navigate("/products")}>
+                                <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
+                                    {"settings"}
+                                </span>
+                            </Admin>
+                        )}
+                    </Side>
+                </Content>
+            </Container>
             <FooterComponent
                 visible={showBars}
             />

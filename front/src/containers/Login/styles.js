@@ -2,12 +2,13 @@ import styled from "styled-components";
 
 export const Content = styled.div`
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     width: 100%;
-    min-height: calc(100vh - 15vh - 12vh);
+    height: calc(100vh - 15vh);
+    justify-content: center;
+    align-items: center;
     padding: 4vh;
+    padding-bottom: 15vh;
     cursor: default;
     gap: 2vh;
 `;
@@ -66,6 +67,8 @@ export const Button = styled.div`
 `;
 
 export const Sign = styled.div`
+    display: flex;
+    justify-content: center;
     font-size: 14px;
     color: ${({ theme }) => theme.colors.text};
     margin-top: 5vh;

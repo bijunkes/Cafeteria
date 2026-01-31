@@ -6,6 +6,7 @@ export const Classes = styled.div`
     scroll-behavior: smooth;
     padding: 5vh 0vh 3vh 0vh;
     gap: 4vh;
+    justify-content: space-between;
 
     &::-webkit-scrollbar {
         height: 0;

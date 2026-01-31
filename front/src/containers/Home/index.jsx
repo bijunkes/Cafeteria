@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/authContext";
 import { scroll } from "../../components/scroll";
@@ -7,6 +7,7 @@ import { Classes, Class, Products, Product, ProductText, Menu, MenuTitle, Items,
 import HeroComponent from "../../components/Hero";
 import FooterComponent from "../../components/Footer";
 import BackgroundComponent from "../../components/Background";
+import { Container } from "../../components/Background/styles";
 
 import api from "../../services/api";
 
@@ -19,6 +20,12 @@ function Home({ toggleTheme }) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [products, setProducts] = useState([]);
     const [filtered, setFiltered] = useState([]);
+
+    const menuProducts = [...products].sort((a, b) =>
+        a.name.localeCompare(b.name, "pt-BR")
+    );
+
+    const productsRef = useRef(null);
 
     function handleCategory(index) {
         setActiveIndex(index);
@@ -52,6 +59,15 @@ function Home({ toggleTheme }) {
         loadProducts();
     }, []);
 
+    useEffect(() => {
+        if (productsRef.current) {
+            productsRef.current.scrollTo({
+                left: 0,
+                behavior: "smooth"
+            });
+        }
+    }, [filtered]);
+
     return (
         <BackgroundComponent>
             <HeroComponent
@@ -59,84 +75,85 @@ function Home({ toggleTheme }) {
                 toggleTheme={toggleTheme}
                 showSearch={true}
             />
-            <Classes>
-                {categories.map((cat, index) => (
-                    <Class
-                        key={cat}
-                        active={index === activeIndex}
-                        onClick={() => handleCategory(index)}
-                    >
-                        {cat}
-                    </Class>
-                ))}
-            </Classes>
-
-            <Products>
-                {filtered.map(product => (
-                    <Product
-                        key={product.id}
-                        onClick={() => navigate(`/product/${product.id}`)}
-                    >
-                        {product.imageUrl && (
-                            <img src={`http://localhost:3000/images/${product.imageUrl.replace("uploads/", "")}`}
-                                alt={product.name} />
-                        )}
-                        <ProductText>
-                            {product.name}
-                        </ProductText>
-                    </Product>
-                ))}
-            </Products>
-
-            <Menu>
-                <MenuTitle>
-                    Cardápio
-                </MenuTitle>
-                <Items>
-                    {products.map(product => (
-                        <Item key={product.id}>
-                            <ItemImage>
-                                {product.imageUrl && (
-                                    <img
-                                        src={`http://localhost:3000/images/${product.imageUrl.replace("uploads/", "")}`}
-                                        alt={product.name}
-                                    />
-                                )}
-                            </ItemImage>
-
-                            <ItemText>
-                                <span className="name">{product.name}</span>
-                                <span className="class">
-                                    {product.type.replace("_", " ")}
-                                </span>
-                            </ItemText>
-
-                            <ItemPrice>
-                                <span className="currency">R$</span>
-                                <span className="value">
-                                    {(() => {
-                                        const price = Math.min(...product.options.map(o => o.price))
-                                            .toLocaleString("pt-BR", {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2
-                                            });
-
-                                        const [reais, centavos] = price.split(",");
-
-                                        return (
-                                            <span className="value">
-                                                <span className="reais">{reais}</span>
-                                                <span className="centavos">,{centavos}</span>
-                                            </span>
-                                        );
-                                    })()}
-                                </span>
-                            </ItemPrice>
-                        </Item>
+            <Container>
+                <Classes>
+                    {categories.map((cat, index) => (
+                        <Class
+                            key={cat}
+                            active={index === activeIndex}
+                            onClick={() => handleCategory(index)}
+                        >
+                            {cat}
+                        </Class>
                     ))}
-                </Items>
-            </Menu>
+                </Classes>
 
+                <Products ref={productsRef}>
+                    {filtered.map(product => (
+                        <Product
+                            key={product.id}
+                            onClick={() => navigate(`/product/${product.id}`)}
+                        >
+                            {product.imageUrl && (
+                                <img src={`http://localhost:3000/images/${product.imageUrl.replace("uploads/", "")}`}
+                                    alt={product.name} />
+                            )}
+                            <ProductText>
+                                {product.name}
+                            </ProductText>
+                        </Product>
+                    ))}
+                </Products>
+
+                <Menu>
+                    <MenuTitle>
+                        Cardápio
+                    </MenuTitle>
+                    <Items>
+                        {menuProducts.map(product => (
+                            <Item key={product.id}>
+                                <ItemImage>
+                                    {product.imageUrl && (
+                                        <img
+                                            src={`http://localhost:3000/images/${product.imageUrl.replace("uploads/", "")}`}
+                                            alt={product.name}
+                                        />
+                                    )}
+                                </ItemImage>
+
+                                <ItemText>
+                                    <span className="name">{product.name}</span>
+                                    <span className="class">
+                                        {product.type.replace("_", " ")}
+                                    </span>
+                                </ItemText>
+
+                                <ItemPrice>
+                                    <span className="currency">R$</span>
+                                    <span className="value">
+                                        {(() => {
+                                            const price = Math.min(...product.options.map(o => o.price))
+                                                .toLocaleString("pt-BR", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2
+                                                });
+
+                                            const [reais, centavos] = price.split(",");
+
+                                            return (
+                                                <span className="value">
+                                                    <span className="reais">{reais}</span>
+                                                    <span className="centavos">,{centavos}</span>
+                                                </span>
+                                            );
+                                        })()}
+                                    </span>
+                                </ItemPrice>
+                            </Item>
+                        ))}
+                    </Items>
+                </Menu>
+            </Container>
             <FooterComponent
                 visible={showBars}
                 onProfileClick={() => {

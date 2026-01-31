@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import HeroImage from '../../assets/HeroImage.png';
+import { Container } from '../Background/styles';
 
 export const Hero = styled.section`
     position: sticky;
@@ -33,7 +34,7 @@ export const OverlayHero = styled.div`
     background-color: ${({ theme }) => theme.colors.ternary};
 `;
 
-export const ContentHero = styled.div`
+export const ContentHero = styled(Container)`
     position: relative;
     z-index: 1;
 

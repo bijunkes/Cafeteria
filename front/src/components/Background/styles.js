@@ -6,4 +6,15 @@ export const Background = styled.section`
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const Container = styled.div`
+    width: 100%;
+    max-width: 110vh;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+    }
 `;

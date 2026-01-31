@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
 
 import BackgroundComponent from '../../components/Background';
+import { Container } from '../../components/Background/styles';
 import HeroComponent from '../../components/Hero';
 import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
@@ -22,7 +23,7 @@ function Login({ toggleTheme }) {
 
     async function handleLogin() {
         try {
-            const {data} = await authService.login({
+            const { data } = await authService.login({
                 email, password
             });
             login(data.user, data.token);
@@ -39,50 +40,50 @@ function Login({ toggleTheme }) {
                 toggleTheme={toggleTheme}
                 showSearch={false}
             />
+            <Container>
+                <Content>
+                    <Title>
+                        Login
+                    </Title>
 
-            <Content>
-                <Title>
-                    Login
-                </Title>
+                    <Input>
+                        <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
+                            {"mail"}
+                        </span>
+                        <InputContent placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)} />
+                    </Input>
 
-                <Input>
-                    <span className="material-icons-outlined" style={{fontSize:"18px"}}>
-                        {"mail"}
-                    </span>
-                    <InputContent placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)} />
-                </Input>
+                    <Input>
+                        <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
+                            {"lock"}
+                        </span>
 
-                <Input>
-                    <span className="material-icons-outlined" style={{fontSize:"18px"}}>
-                        {"lock"}
-                    </span>
+                        <InputContent
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Senha"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)} />
 
-                    <InputContent 
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Senha"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)} />
+                        <span
+                            className="material-icons-outlined" style={{ fontSize: "18px", cursor: "pointer" }}
+                            onClick={() => setShowPassword(prev => !prev)}
+                        >
+                            {showPassword ? "visibility_off" : "visibility"}
+                        </span>
+                    </Input>
 
-                    <span
-                        className="material-icons-outlined" style={{fontSize:"18px", cursor:"pointer"}}
-                        onClick={() => setShowPassword(prev =>!prev)}
-                    >
-                        {showPassword ? "visibility_off" : "visibility"}
-                    </span>
-                </Input>
-                
-                <ForgotPassword>Esqueceu a senha?</ForgotPassword>
+                    <ForgotPassword>Esqueceu a senha?</ForgotPassword>
 
-                <Button onClick={() => handleLogin()}>Login</Button>
+                    <Button onClick={() => handleLogin()}>Login</Button>
 
-                <Sign>
-                    Não possui cadastro?
-                    <span onClick={() => navigate("/register")}> Sign Up</span>
-                </Sign>
-            </Content>
-
+                    <Sign>
+                        Não possui cadastro?
+                        <span onClick={() => navigate("/register")}> Sign Up</span>
+                    </Sign>
+                </Content>
+            </Container>
             <FooterComponent
                 visible={showBars}
             />

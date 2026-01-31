@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import BackgroundComponent from '../../components/Background';
+import { Container } from "../../components/Background/styles";
 import HeroComponent from '../../components/Hero';
 import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
-import { SubmitButton, Table, Title, TableCell, Select, Aside } from "./styles";
-import { Content, Input, InputContent } from "../Login/styles";
+import { ScrollContent, SubmitButton, Table, Title, TableCell, Select, Aside } from "./styles";
+import { Input, InputContent } from "../Login/styles";
 import api from "../../services/api";
 
 function CreateProduct({ toggleTheme }) {
@@ -22,6 +23,8 @@ function CreateProduct({ toggleTheme }) {
         GRANDE: ""
     });
     const [type, setType] = useState("");
+    const [recommended, setRecommended] = useState(false);
+    const [inStock, setInStock] = useState(true);
 
     const COFFEE_TYPES = [
         "Classico",
@@ -29,9 +32,6 @@ function CreateProduct({ toggleTheme }) {
         "Especial",
         "Gelado"
     ];
-
-    const [recommended, setRecommended] = useState(false);
-    const [inStock, setInStock] = useState(true);
 
     const isValid =
         name.trim() &&
@@ -130,192 +130,194 @@ function CreateProduct({ toggleTheme }) {
                 toggleTheme={toggleTheme}
                 showSearch={false}
             />
-            <Content>
-                <Title>Cadastrar produto</Title>
-                <Input>
-                    <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
-                        {"local_cafe"}
-                    </span>
-                    <InputContent
-                        placeholder="Nome"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)} />
-                </Input>
-
-                <Input
-                    style={{
-                        height: "14vh",
-                        alignItems: "flex-start",
-                        padding: "2vh"
-                    }}>
-                    <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
-                        {"info"}
-                    </span>
-                    <InputContent
-                        placeholder="Descrição"
-                        as="textarea"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        style={{
-                            height: "100%"
-                        }} />
-                </Input>
-
-                <Input>
-                    <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
-                        {"tag"}
-                    </span>
-
-                    <Select
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                    >
-                        <option value="">Classificação</option>
-                        {COFFEE_TYPES.map(t => (
-                            <option key={t} value={t}>
-                                {t.replace("_", " ")}
-                            </option>
-                        ))}
-                    </Select>
-                </Input>
-
-                <Aside>
+            <Container>
+                <ScrollContent>
+                    <Title>Cadastrar produto</Title>
                     <Input>
-                        <input
-                            type="checkbox"
-                            checked={recommended}
-                            onChange={(e) => setRecommended(e.target.checked)}
-                        />
-                        Recomendado
+                        <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
+                            {"local_cafe"}
+                        </span>
+                        <InputContent
+                            placeholder="Nome"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)} />
+                    </Input>
+
+                    <Input
+                        style={{
+                            height: "14vh",
+                            alignItems: "flex-start",
+                            padding: "2vh"
+                        }}>
+                        <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
+                            {"info"}
+                        </span>
+                        <InputContent
+                            placeholder="Descrição"
+                            as="textarea"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            style={{
+                                height: "100%"
+                            }} />
                     </Input>
 
                     <Input>
-                        <input
-                            type="checkbox"
-                            checked={inStock}
-                            onChange={(e) => setInStock(e.target.checked)}
-                        />
-                        Em estoque
+                        <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
+                            {"tag"}
+                        </span>
+
+                        <Select
+                            value={type}
+                            onChange={(e) => setType(e.target.value)}
+                        >
+                            <option value="">Classificação</option>
+                            {COFFEE_TYPES.map(t => (
+                                <option key={t} value={t}>
+                                    {t.replace("_", " ")}
+                                </option>
+                            ))}
+                        </Select>
                     </Input>
-                </Aside>
 
-                <Table>
-                    <TableCell>P</TableCell>
-                    <TableCell>M</TableCell>
-                    <TableCell>G</TableCell>
+                    <Aside>
+                        <Input>
+                            <input
+                                type="checkbox"
+                                checked={recommended}
+                                onChange={(e) => setRecommended(e.target.checked)}
+                            />
+                            Recomendado
+                        </Input>
 
-                    <TableCell>
-                        <InputContent
+                        <Input>
+                            <input
+                                type="checkbox"
+                                checked={inStock}
+                                onChange={(e) => setInStock(e.target.checked)}
+                            />
+                            Em estoque
+                        </Input>
+                    </Aside>
+
+                    <Table>
+                        <TableCell>P</TableCell>
+                        <TableCell>M</TableCell>
+                        <TableCell>G</TableCell>
+
+                        <TableCell>
+                            <InputContent
+                                style={{
+                                    width: "100%",
+                                    textAlign: "center",
+                                    boxSizing: "border-box"
+                                }}
+                                placeholder="R$ 0,00"
+                                value={prices.PEQUENO ? `R$ ${prices.PEQUENO}` : ""}
+                                onChange={(e) =>
+                                    setPrices(prev => ({
+                                        ...prev,
+                                        PEQUENO: formatCurrencyBR(
+                                            e.target.value.replace("R$", "").trim()
+                                        )
+                                    }))
+                                }
+                                inputMode="numeric"
+                            />
+                        </TableCell>
+
+                        <TableCell>
+                            <InputContent
+                                style={{
+                                    width: "100%",
+                                    textAlign: "center",
+                                    boxSizing: "border-box"
+                                }}
+                                placeholder="R$ 0,00"
+                                value={prices.MEDIO ? `R$ ${prices.MEDIO}` : ""}
+                                onChange={(e) =>
+                                    setPrices(prev => ({
+                                        ...prev,
+                                        MEDIO: formatCurrencyBR(
+                                            e.target.value.replace("R$", "").trim()
+                                        )
+                                    }))
+                                }
+                                inputMode="numeric"
+                            />
+                        </TableCell>
+
+                        <TableCell>
+                            <InputContent
+                                style={{
+                                    width: "100%",
+                                    textAlign: "center",
+                                    boxSizing: "border-box"
+                                }}
+                                placeholder="R$ 0,00"
+                                value={prices.GRANDE ? `R$ ${prices.GRANDE}` : ""}
+                                onChange={(e) =>
+                                    setPrices(prev => ({
+                                        ...prev,
+                                        GRANDE: formatCurrencyBR(
+                                            e.target.value.replace("R$", "").trim()
+                                        )
+                                    }))
+                                }
+                                inputMode="numeric"
+                            />
+                        </TableCell>
+                    </Table>
+
+                    <Input>
+                        <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
+                            {"image"}
+                        </span>
+                        <label
+                            htmlFor="product-image"
                             style={{
-                                width: "100%",
-                                textAlign: "center",
-                                boxSizing: "border-box"
-                            }}
-                            placeholder="R$ 0,00"
-                            value={prices.PEQUENO ? `R$ ${prices.PEQUENO}` : ""}
-                            onChange={(e) =>
-                                setPrices(prev => ({
-                                    ...prev,
-                                    PEQUENO: formatCurrencyBR(
-                                        e.target.value.replace("R$", "").trim()
-                                    )
-                                }))
-                            }
-                            inputMode="numeric"
-                        />
-                    </TableCell>
-
-                    <TableCell>
-                        <InputContent
-                            style={{
-                                width: "100%",
-                                textAlign: "center",
-                                boxSizing: "border-box"
-                            }}
-                            placeholder="R$ 0,00"
-                            value={prices.MEDIO ? `R$ ${prices.MEDIO}` : ""}
-                            onChange={(e) =>
-                                setPrices(prev => ({
-                                    ...prev,
-                                    MEDIO: formatCurrencyBR(
-                                        e.target.value.replace("R$", "").trim()
-                                    )
-                                }))
-                            }
-                            inputMode="numeric"
-                        />
-                    </TableCell>
-
-                    <TableCell>
-                        <InputContent
-                            style={{
-                                width: "100%",
-                                textAlign: "center",
-                                boxSizing: "border-box"
-                            }}
-                            placeholder="R$ 0,00"
-                            value={prices.GRANDE ? `R$ ${prices.GRANDE}` : ""}
-                            onChange={(e) =>
-                                setPrices(prev => ({
-                                    ...prev,
-                                    GRANDE: formatCurrencyBR(
-                                        e.target.value.replace("R$", "").trim()
-                                    )
-                                }))
-                            }
-                            inputMode="numeric"
-                        />
-                    </TableCell>
-                </Table>
-
-                <Input>
-                    <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
-                        {"image"}
-                    </span>
-                    <label
-                        htmlFor="product-image"
-                        style={{
-                            flex: 1,
-                            cursor: "pointer",
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                            textOverflow: "ellipsis"
-                        }} >
-                        {image ? image.name : "Selecionar imagem"}
-                    </label>
-                    {image && (
-                        <button
-                            type="button"
-                            onClick={() => setImage(null)}
-                            style={{
-                                background: "transparent",
-                                border: "none",
+                                flex: 1,
                                 cursor: "pointer",
-                                display: "flex",
-                                alignItems: "center"
-                            }}
-                            title="Remover imagem" >
-                            <span
-                                className="material-icons-outlined"
-                                style={{ fontSize: "18px", color: "#bf342b" }} >
-                                close
-                            </span>
-                        </button>
-                    )}
-                    <input
-                        id="product-image"
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setImage(e.target.files[0])}
-                        style={{ display: "none" }}
-                    />
-                </Input>
+                                overflow: "hidden",
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis"
+                            }} >
+                            {image ? image.name : "Selecionar imagem"}
+                        </label>
+                        {image && (
+                            <button
+                                type="button"
+                                onClick={() => setImage(null)}
+                                style={{
+                                    background: "transparent",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    display: "flex",
+                                    alignItems: "center"
+                                }}
+                                title="Remover imagem" >
+                                <span
+                                    className="material-icons-outlined"
+                                    style={{ fontSize: "18px", color: "#bf342b" }} >
+                                    close
+                                </span>
+                            </button>
+                        )}
+                        <input
+                            id="product-image"
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => setImage(e.target.files[0])}
+                            style={{ display: "none" }}
+                        />
+                    </Input>
 
-                <SubmitButton
-                    $visible={isValid} onClick={handleSubmit}
-                >Cadastrar</SubmitButton>
-                <div ref={bottomRef} />
-            </Content>
+                    <SubmitButton
+                        $visible={isValid} onClick={handleSubmit}
+                    >Cadastrar</SubmitButton>
+                    <div ref={bottomRef} />
+                </ScrollContent>
+            </Container>
             <FooterComponent
                 visible={showBars}
                 onProfileClick={() => navigate("/profile")}
