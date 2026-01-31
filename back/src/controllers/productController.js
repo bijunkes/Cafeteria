@@ -2,19 +2,27 @@ import prisma from "../../prisma/client.js";
 
 export async function create(req, res) {
     try {
-        const { name, description, imageUrl, type, recommended = false, inStock = true, options } = req.body;
+        const { name, description, type, options } = req.body;
 
-        if (!name || !description || !Array.isArray(options) || options.length === 0) {
+        const recommendedBool = req.body.recommended === "true";
+        const inStockBool = req.body.inStock === "true";
+
+        const parsedOptions = JSON.parse(options);
+
+        if (!name || !description || !Array.isArray(parsedOptions) || parsedOptions.length === 0) {
             return res.status(400).json({ error: "Campos obrigatórios" });
         }
 
+        const imageUrl = req.file
+            ? `uploads/${req.file.filename}`
+            : null;
+
         const sizes = ["PEQUENO", "MEDIO", "GRANDE"];
 
-        for (const opt of options) {
+        for (const opt of parsedOptions) {
             if (
                 !sizes.includes(opt.size) ||
-                opt.price <= 0 ||
-                opt.quantite < 0
+                opt.price <= 0
             ) {
                 return res.status(400).json({ error: "Opção inválida" });
             }
@@ -26,10 +34,10 @@ export async function create(req, res) {
                 description,
                 imageUrl,
                 type,
-                recommended,
-                inStock,
+                recommended: recommendedBool,
+                inStock: inStockBool,
                 options: {
-                    create: options.map(opt => ({
+                    create: parsedOptions.map(opt => ({
                         size: opt.size,
                         price: opt.price
                     }))
@@ -38,8 +46,10 @@ export async function create(req, res) {
             include: { options: true }
         });
 
+
         return res.status(201).json(product);
-    } catch {
+    } catch (error) {
+        console.error("ERRO AO CRIAR PRODUTO:", error);
         return res.status(500).json({ error: "Erro ao cadastrar produto" });
     }
 }

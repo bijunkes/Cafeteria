@@ -40,18 +40,19 @@ export const SubmitButton = styled.button`
 
 export const Select = styled.select`
     width: 100%;
-    background: transparent;
+    background-color: transparent;
     border: none;
-    outline: none;
-
     color: ${({ theme }) => theme.colors.text};
-    font-size: 1rem;
-
-
     cursor: pointer;
 
+    transition: all 0.2s ease;
+
+    &:focus {
+        border-color: ${({ theme }) => theme.colors.bold};
+    }
+
     option {
-        background: ${({ theme }) => theme.colors.secondary};
+        background-color: ${({ theme }) => theme.colors.secondary};
         color: ${({ theme }) => theme.colors.text};
     }
 `;

@@ -40,7 +40,7 @@ export const Class = styled.button`
     }
 `;
 
-export const Options = styled.div`
+export const Products = styled.div`
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
@@ -129,7 +129,7 @@ export const ItemPrice = styled.div`
     }
 `;
 
-export const Option = styled.div`
+export const Product = styled.div`
     flex: 0 0 auto;
     display: flex;
     height: 21vh;
@@ -141,7 +141,7 @@ export const Option = styled.div`
     justify-content: center;
 `;
 
-export const OptionText = styled.span`
+export const ProductText = styled.span`
     font-size: 12px;
     color: ${({ theme }) => theme.colors.text};
 `;

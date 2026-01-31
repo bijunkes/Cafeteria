@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import BackgroundComponent from '../../components/Background';
 import HeroComponent from '../../components/Hero';
@@ -10,6 +11,7 @@ import api from "../../services/api";
 
 function CreateProduct({ toggleTheme }) {
     const showBars = scroll();
+    const navigate = useNavigate();
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -66,23 +68,57 @@ function CreateProduct({ toggleTheme }) {
     async function handleSubmit() {
         if (!isValid) return;
 
-        const payload = {
-            name, description, imageUrl: image.name, type, recommended, inStock,
-            options: [
-                { size: "PEQUENO", price: Number(prices.PEQUENO.replace(".", "").replace(",", ".")) },
-                { size: "MEDIO", price: Number(prices.PEQUENO.replace(".", "").replace(",", ".")) },
-                { size: "GRANDE", price: Number(prices.GRANDE.replace(".", "").replace(",", ".")) },
-            ]
-        }
+        const formData = new FormData();
+
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("type", type);
+        formData.append("recommended", recommended);
+        formData.append("inStock", inStock);
+        formData.append("image", image);
+
+        formData.append(
+            "options",
+            JSON.stringify([
+                {
+                    size: "PEQUENO",
+                    price: Number(prices.PEQUENO.replace(".", "").replace(",", "."))
+                },
+                {
+                    size: "MEDIO",
+                    price: Number(prices.MEDIO.replace(".", "").replace(",", "."))
+                },
+                {
+                    size: "GRANDE",
+                    price: Number(prices.GRANDE.replace(".", "").replace(",", "."))
+                }
+            ])
+        );
 
         try {
-            await api.post("/products", payload);
+            await api.post("/products", formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
             alert("Produto cadastrado");
             reset();
         } catch (err) {
-            alert("Erro ao cadastrar produto");
-        }
+  console.error(err.response?.data || err);
+  alert(err.response?.data?.error || "Erro ao cadastrar produto");
+}
+
     }
+
+    const bottomRef = useRef(null);
+
+    useEffect(() => {
+        if (isValid && bottomRef.current) {
+            bottomRef.current.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+    }, [isValid]);
 
     return (
         <BackgroundComponent>
@@ -275,9 +311,11 @@ function CreateProduct({ toggleTheme }) {
                 <SubmitButton
                     $visible={isValid} onClick={handleSubmit}
                 >Cadastrar</SubmitButton>
+                <div ref={bottomRef} />
             </Content>
             <FooterComponent
                 visible={showBars}
+                onProfileClick={() => navigate("/profile")}
             />
         </BackgroundComponent>
     );
