@@ -57,6 +57,35 @@ export const Products = styled.div`
     }
 `;
 
+export const Product = styled.div`
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    height: 21vh;
+    width: 17vh;
+    border-radius: 20px;
+    padding: 1.5vh;
+    background-color: ${({ theme }) => theme.colors.secondary};
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+
+    img {
+        width: 90%;
+        height: auto;
+        transition: transform 0.5s ease;
+    }
+
+    &:hover img {
+        transform: scale(1.05);
+    }
+`;
+
+export const ProductText = styled.span`
+    font-size: 12px;
+    color: ${({ theme }) => theme.colors.text};
+`;
+
 export const Menu = styled.div`
     display: flex;
     flex-direction: column;
@@ -85,10 +114,22 @@ export const Item = styled.div`
 `;
 
 export const ItemImage = styled.div`
+    display: flex;
+    justify-content: center;
     background-color: ${({ theme }) => theme.colors.secondary};
-    width: 10vh;
     border-radius: 14px;
-    flex: 2;
+    flex: 3;
+    padding: 0.5vh;
+
+    img {
+        max-width: 90%;
+        height: auto;
+        transition: transform 0.5s ease;
+    }
+
+    &:hover img {
+        transform: scale(1.05);
+    }
 `;
 
 export const ItemText = styled.div`
@@ -127,21 +168,12 @@ export const ItemPrice = styled.div`
         font-size: 24px;
         font-weight: bold;
     }
-`;
 
-export const Product = styled.div`
-    flex: 0 0 auto;
-    display: flex;
-    height: 21vh;
-    width: 17vh;
-    border-radius: 20px;
-    padding: 1.5vh;
-    background-color: ${({ theme }) => theme.colors.secondary};
-    align-items: end;
-    justify-content: center;
-`;
+    .reais {
+        font-size: 24px;
+    }
 
-export const ProductText = styled.span`
-    font-size: 12px;
-    color: ${({ theme }) => theme.colors.text};
+    .centavos {
+        font-size: 14px;
+    }
 `;

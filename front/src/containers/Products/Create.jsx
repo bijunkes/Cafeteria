@@ -102,11 +102,14 @@ function CreateProduct({ toggleTheme }) {
                 }
             });
             alert("Produto cadastrado");
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
             reset();
         } catch (err) {
-  console.error(err.response?.data || err);
-  alert(err.response?.data?.error || "Erro ao cadastrar produto");
-}
+            alert(err.response?.data?.error || "Erro ao cadastrar produto");
+        }
 
     }
 

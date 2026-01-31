@@ -44,7 +44,7 @@ function Home({ toggleTheme }) {
             try {
                 const res = await api.get("/products");
                 setProducts(res.data);
-                setFiltered(res.data);
+                setFiltered(res.data.filter(p => p.recommended));
             } catch (err) {
 
             }
@@ -81,7 +81,6 @@ function Home({ toggleTheme }) {
                             <img src={`http://localhost:3000/images/${product.imageUrl.replace("uploads/", "")}`}
                                 alt={product.name} />
                         )}
-
                         <ProductText>
                             {product.name}
                         </ProductText>
@@ -94,19 +93,47 @@ function Home({ toggleTheme }) {
                     Cardápio
                 </MenuTitle>
                 <Items>
-                    <Item>
-                        <ItemImage>
-                            A
-                        </ItemImage>
-                        <ItemText>
-                            <span className="name">Expresso</span>
-                            <span className="class">Clássico</span>
-                        </ItemText>
-                        <ItemPrice>
-                            <span className="currency">R$</span>
-                            <span className="value">6</span>
-                        </ItemPrice>
-                    </Item>
+                    {products.map(product => (
+                        <Item key={product.id}>
+                            <ItemImage>
+                                {product.imageUrl && (
+                                    <img
+                                        src={`http://localhost:3000/images/${product.imageUrl.replace("uploads/", "")}`}
+                                        alt={product.name}
+                                    />
+                                )}
+                            </ItemImage>
+
+                            <ItemText>
+                                <span className="name">{product.name}</span>
+                                <span className="class">
+                                    {product.type.replace("_", " ")}
+                                </span>
+                            </ItemText>
+
+                            <ItemPrice>
+                                <span className="currency">R$</span>
+                                <span className="value">
+                                    {(() => {
+                                        const price = Math.min(...product.options.map(o => o.price))
+                                            .toLocaleString("pt-BR", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            });
+
+                                        const [reais, centavos] = price.split(",");
+
+                                        return (
+                                            <span className="value">
+                                                <span className="reais">{reais}</span>
+                                                <span className="centavos">,{centavos}</span>
+                                            </span>
+                                        );
+                                    })()}
+                                </span>
+                            </ItemPrice>
+                        </Item>
+                    ))}
                 </Items>
             </Menu>
 
