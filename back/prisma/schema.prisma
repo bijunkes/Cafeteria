@@ -13,6 +13,9 @@ model User {
   email String @unique
   password String
   role String @default("user")
+
+  orders Order[]
+  reviews Review[]
 }
 
 model Product {
@@ -27,6 +30,7 @@ model Product {
 
   options ProductOption[]
   orderItems OrderItem[]
+  reviews Review[]
 }
 
 model ProductOption {
@@ -42,8 +46,21 @@ model ProductOption {
 
 model Order {
   id Int @id @default(autoincrement())
+
+  customerName String
+  table String
+
+  total Float
+
+  status String @default("novo")
+  paymentStatus String @default("pendente")
+
+  userId String?
+  user User? @relation(fields: [userId], references: [id]) 
   
   items OrderItem[]
+
+  createdAt DateTime @default(now())
 }
 
 model OrderItem {
@@ -57,5 +74,21 @@ model OrderItem {
   product Product @relation(fields: [productId], references: [id])
   productOption ProductOption @relation(fields: [productOptionId], references: [id])
   order Order @relation(fields: [orderId], references: [id])
+}
+
+model Review {
+  id Int @id @default(autoincrement())
+  rating Int
+  comment String?
+
+  userId String
+  productId Int
+
+  user User @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
 }
 

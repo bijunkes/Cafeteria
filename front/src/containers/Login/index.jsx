@@ -80,7 +80,7 @@ function Login({ toggleTheme }) {
 
                     <Sign>
                         Não possui cadastro?
-                        <span onClick={() => navigate("/register")}> Sign Up</span>
+                        <span onClick={() => navigate("/register")}>   Sign Up</span>
                     </Sign>
                 </Content>
             </Container>
