@@ -111,7 +111,8 @@ function Home({ toggleTheme }) {
                     </MenuTitle>
                     <Items>
                         {menuProducts.map(product => (
-                            <Item key={product.id}>
+                            <Item key={product.id}
+                                onClick={() => navigate(`/product/${product.id}`)}>
                                 <ItemImage>
                                     {product.imageUrl && (
                                         <img

@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useTheme } from "styled-components";
-import { Hero, OverlayHero, ContentHero, Top, Title, Theme, Search, SearchInput } from "./styles";
+import { Hero, OverlayHero, ContentHero, Top, Title, Theme, Search, SearchInput, FloatingTheme } from "./styles";
 
-function HeroComponent({ visible, toggleTheme, showSearch = true, products = [], onSelectProduct }) {
+function HeroComponent({ visible, toggleTheme, showSearch = true, variant = "full", products = [] }) {
     const theme = useTheme();
     const [query, setQuery] = useState("");
-    const [filtered, setFiltered] = useState([]);
+
+    const isMinimal = variant === "minimal";
 
     function handleChange(e) {
         const value = e.target.value;
@@ -22,12 +23,14 @@ function HeroComponent({ visible, toggleTheme, showSearch = true, products = [],
         setFiltered(filteredProducts);
     }
 
-    function handleSelect(product) {
-        setQuery("");
-        setFiltered([]);
-        if (onSelectProduct) {
-            onSelectProduct(product);
-        }
+    if (isMinimal) {
+        return (
+            <FloatingTheme onClick={toggleTheme}>
+                <span className="material-icons-outlined">
+                    {theme.name === "light" ? "light_mode" : "dark_mode"}
+                </span>
+            </FloatingTheme>
+        );
     }
 
     return (
@@ -36,11 +39,13 @@ function HeroComponent({ visible, toggleTheme, showSearch = true, products = [],
                 <ContentHero>
                     <Top>
                         <Title>Cafe Shop</Title>
-                        <Theme onClick={toggleTheme}>
-                            <span className="material-icons-outlined">
-                                {theme.name === "light" ? "light_mode" : "dark_mode"}
-                            </span>
-                        </Theme>
+                        {isMinimal && (
+                            <Theme onClick={toggleTheme}>
+                                <span className="material-icons-outlined">
+                                    {theme.name === "light" ? "light_mode" : "dark_mode"}
+                                </span>
+                            </Theme>
+                        )}
                     </Top>
                     {showSearch && (
                         <Search>

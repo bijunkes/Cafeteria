@@ -69,6 +69,7 @@ export async function list(req, res) {
 export async function getProduct(req, res) {
     try {
         const { id } = req.params;
+        const productId = Number(id);
 
         const product = await prisma.product.findUnique({
             where: { id: Number(id) },
@@ -79,7 +80,23 @@ export async function getProduct(req, res) {
             return res.status(404).json({ error: "Produto não encontrado" });
         }
 
-        return res.json(product);
+        const ratingData = await prisma.review.aggregate({
+            where: {
+                productId: productId,
+            },
+            _avg: {
+                rating: true,
+            },
+            _count: {
+                rating: true,
+            },
+        });
+
+        return res.json({
+            ...product,
+            rating: ratingData._avg.rating ?? 0,
+            reviewsCount: ratingData._count.rating,
+        });
     } catch {
         return res.status(500).json({ error: "Erro ao buscar produtos" });
     }

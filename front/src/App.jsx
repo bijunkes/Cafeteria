@@ -9,6 +9,7 @@ import GlobalStyle from './styles/reset';
 import { light, dark } from './styles/themes'
 import { AuthProvider } from './contexts/authContext';
 import Home from './containers/Home';
+import Product from './containers/Product';
 import Login from './containers/Login';
 import Profile from './containers/Profile';
 import SignUp from './containers/SignUp';
@@ -34,19 +35,26 @@ function App() {
                         <Route
                             path="/"
                             element={
-                                <Home toggleTheme={toggleTheme}/>
+                                <Home toggleTheme={toggleTheme} />
+                            }
+                        />
+
+                        <Route
+                            path="/product/:id"
+                            element={
+                                <Product toggleTheme={toggleTheme} />
                             }
                         />
 
                         <Route path="/login" element={
-                            <Login toggleTheme={toggleTheme}/>
+                            <Login toggleTheme={toggleTheme} />
                         } />
 
                         <Route
                             path="/profile"
                             element={
                                 <PrivateRoute>
-                                    <Profile toggleTheme={toggleTheme}/>
+                                    <Profile toggleTheme={toggleTheme} />
                                 </PrivateRoute>
                             }
                         />
@@ -54,7 +62,7 @@ function App() {
                         <Route
                             path="/register"
                             element={
-                                <SignUp toggleTheme={toggleTheme}/>
+                                <SignUp toggleTheme={toggleTheme} />
                             }
                         />
 
@@ -62,7 +70,7 @@ function App() {
                             path="/products"
                             element={
                                 <AdminRoute>
-                                    <Products toggleTheme={toggleTheme}/>
+                                    <Products toggleTheme={toggleTheme} />
                                 </AdminRoute>
                             }
                         />
@@ -71,7 +79,7 @@ function App() {
                             path="/products/create"
                             element={
                                 <AdminRoute>
-                                    <CreateProduct toggleTheme={toggleTheme}/>
+                                    <CreateProduct toggleTheme={toggleTheme} />
                                 </AdminRoute>
                             }
                         />
@@ -80,7 +88,7 @@ function App() {
                             path="/products/edit"
                             element={
                                 <AdminRoute>
-                                    <EditProduct toggleTheme={toggleTheme}/>
+                                    <EditProduct toggleTheme={toggleTheme} />
                                 </AdminRoute>
                             }
                         />
@@ -89,7 +97,7 @@ function App() {
                             path="/products/delete"
                             element={
                                 <AdminRoute>
-                                    <DeleteProduct toggleTheme={toggleTheme}/>
+                                    <DeleteProduct toggleTheme={toggleTheme} />
                                 </AdminRoute>
                             }
                         />

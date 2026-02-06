@@ -70,6 +70,7 @@ export const Product = styled.div`
     align-items: center;
     justify-content: center;
     font-weight: 600;
+    cursor: pointer;
 
     img {
         width: 90%;
@@ -112,6 +113,7 @@ export const Item = styled.div`
     display: flex;
     height: 12vh;
     gap: 2vh;
+    cursor: pointer;
 `;
 
 export const ItemImage = styled.div`
@@ -155,7 +157,7 @@ export const ItemText = styled.div`
 export const ItemPrice = styled.div`
     display: flex;
     align-items: center;
-    gap: 1.5vh;
+    gap: 1vh;
     flex: 2;
     justify-content: end;
     color: ${({ theme }) => theme.colors.text};

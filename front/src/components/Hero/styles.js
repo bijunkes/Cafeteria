@@ -98,3 +98,26 @@ export const SearchInput = styled.input`
     background: transparent;
     color: ${({ theme }) => theme.colors.text};
 `;
+
+export const FloatingTheme = styled.div`
+    position: fixed;
+    top: 3vh;
+    right: 3vh;
+    z-index: 1;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 100%;
+    padding: 1.2vh;
+    margin-left: auto;
+
+    font-size: 20px;
+    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.primary};
+`;

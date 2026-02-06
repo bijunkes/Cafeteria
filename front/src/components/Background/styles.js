@@ -6,8 +6,8 @@ export const Background = styled.section`
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    cursor: default;
 `;
 
 export const Container = styled.div`
