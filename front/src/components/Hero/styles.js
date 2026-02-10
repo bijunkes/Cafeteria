@@ -101,8 +101,8 @@ export const SearchInput = styled.input`
 
 export const FloatingTheme = styled.div`
     position: fixed;
-    top: 3vh;
-    right: 3vh;
+    top: 4vh;
+    right: 4vh;
     z-index: 1;
 
     background: none;

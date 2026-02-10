@@ -35,6 +35,8 @@ export const Content = styled.div`
     padding: 0vh 4vh;
     flex-direction: column;
     gap: 1vh;
+    justify-content: center;
+    min-height: calc(100vh - 55vh);
 `;
 
 export const Rating = styled.div`
@@ -85,4 +87,48 @@ export const Price = styled.div`
     .centavos {
         font-size: 14px;
     }
+`;
+
+export const Subtitle = styled.div`
+    font-size: 14px;
+    margin-top: 1.5vh;
+    color: ${({ theme }) => theme.colors.text};
+    font-weight: 600;
+`;
+
+export const Size = styled.div`
+    display: flex;
+    font-size: 16px;
+    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.secondary};
+    padding: 1vh;
+    width: 100%;
+    justify-content: center;
+    border-radius: 20px;
+    cursor: pointer;
+
+    background-color: ${({ $active, theme }) =>
+        $active ? theme.colors.primary : theme.colors.secondary};
+
+    color: ${({ $active, theme }) =>
+        $active ? theme.colors.white : theme.colors.text};
+
+    opacity: ${({ $active }) => ($active ? 1 : 0.7)};
+
+    &:hover {
+        opacity: 1;
+    }
+`;
+
+export const Description = styled.div`
+    font-size: 14px;
+    color: ${({ theme }) => theme.colors.text};
+`;
+
+export const Quantity = styled.div`
+    color: ${({ theme }) => theme.colors.text};
+    border: 2px ${({ theme }) => theme.colors.text} solid;
+    height: 5vh;
+    width: 20vh;
+    border-radius: 20px;
 `;

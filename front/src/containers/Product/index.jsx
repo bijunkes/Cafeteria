@@ -7,7 +7,7 @@ import { Container } from "../../components/Background/styles";
 import HeroComponent from '../../components/Hero';
 import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
-import { Content, BackImage, Image, Rating, Title, Price } from './styles';
+import { Content, BackImage, Image, Rating, Title, Price, Subtitle, Size, Description, Quantity } from './styles';
 import { Aside } from '../Products/styles';
 
 function Product({ toggleTheme }) {
@@ -16,6 +16,7 @@ function Product({ toggleTheme }) {
 
     const { id } = useParams();
     const [product, setProduct] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(null);
 
     useEffect(() => {
         async function fetchProduct() {
@@ -28,6 +29,15 @@ function Product({ toggleTheme }) {
         }
         fetchProduct();
     }, [id]);
+
+    useEffect(() => {
+        if (product?.options?.length && !selectedOption) {
+            const pequeno = product.options.find(
+                o => o.size === "PEQUENO"
+            );
+            setSelectedOption(pequeno || product.options[0]);
+        }
+    }, [product, selectedOption]);
 
     if (!product) {
         return null;
@@ -60,7 +70,7 @@ function Product({ toggleTheme }) {
                                 {product.rating.toFixed(1)} ({product.reviewsCount})
                             </span>
                         )}
-                        
+
                     </Rating>
                     <Aside>
                         <Title>
@@ -70,11 +80,13 @@ function Product({ toggleTheme }) {
                             <span className="currency">R$</span>
                             <span className="value">
                                 {(() => {
-                                    const price = Math.min(...product.options.map(o => o.price))
-                                        .toLocaleString("pt-BR", {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2
-                                        });
+                                    const basePrice = selectedOption?.price
+                                        ?? Math.min(...product.options.map(o => o.price));
+
+                                    const price = basePrice.toLocaleString("pt-BR", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    });
 
                                     const [reais, centavos] = price.split(",");
 
@@ -87,6 +99,55 @@ function Product({ toggleTheme }) {
                                 })()}
                             </span>
                         </Price>
+                    </Aside>
+                    <Subtitle>
+                        Tamanhos
+                    </Subtitle>
+                    <Aside>
+                        <Size
+                            $active={selectedOption?.size === "PEQUENO"}
+                            onClick={() => {
+                                const opt = product.options.find(
+                                    Option => Option.size === "PEQUENO"
+                                );
+                                setSelectedOption(opt);
+                            }
+                            }
+                        >Pequeno</Size>
+                        <Size
+                            $active={selectedOption?.size === "MEDIO"}
+                            onClick={() => {
+                                const opt = product.options.find(
+                                    Option => Option.size === "MEDIO"
+                                );
+                                setSelectedOption(opt);
+                            }
+                            }
+                        >Médio</Size>
+                        <Size
+                            $active={selectedOption?.size === "GRANDE"}
+                            onClick={() => {
+                                const opt = product.options.find(
+                                    Option => Option.size === "GRANDE"
+                                );
+                                setSelectedOption(opt);
+                            }
+                            }
+                        >Grande</Size>
+                    </Aside>
+                    <Subtitle>
+                        Sobre
+                    </Subtitle>
+                    <Description>
+                        {product?.description}
+                    </Description>
+                    <Aside>
+                        <Subtitle>
+                            Volume
+                        </Subtitle>
+                        <Quantity>
+
+                        </Quantity>
                     </Aside>
                 </Content>
             </Container>

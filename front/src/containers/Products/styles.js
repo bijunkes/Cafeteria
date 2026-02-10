@@ -23,6 +23,7 @@ export const Aside = styled.div`
     gap: 2vh;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 `;
 
 export const Button = styled.button`

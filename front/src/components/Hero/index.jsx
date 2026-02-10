@@ -39,13 +39,11 @@ function HeroComponent({ visible, toggleTheme, showSearch = true, variant = "ful
                 <ContentHero>
                     <Top>
                         <Title>Cafe Shop</Title>
-                        {isMinimal && (
-                            <Theme onClick={toggleTheme}>
-                                <span className="material-icons-outlined">
-                                    {theme.name === "light" ? "light_mode" : "dark_mode"}
-                                </span>
-                            </Theme>
-                        )}
+                        <Theme onClick={toggleTheme}>
+                            <span className="material-icons-outlined">
+                                {theme.name === "light" ? "light_mode" : "dark_mode"}
+                            </span>
+                        </Theme>
                     </Top>
                     {showSearch && (
                         <Search>
