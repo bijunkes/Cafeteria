@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const BackImage = styled.div`
-    height: 40vh;
+    height: 33vh;
     width: 100%;
     background: linear-gradient(
         to bottom,
@@ -12,7 +12,7 @@ export const BackImage = styled.div`
 
 export const Image = styled.div`
     position: fixed;
-    top: 10vh;
+    top: 5vh;
     right: 50%;
     transform: translateX(50%);
     z-index: 2;
@@ -34,9 +34,13 @@ export const Content = styled.div`
     display: flex;
     padding: 0vh 4vh;
     flex-direction: column;
+    justify-content: space-around;
     gap: 1vh;
-    justify-content: center;
-    min-height: calc(100vh - 55vh);
+
+    height: calc(100vh - 47vh);
+    overflow-y: auto;
+
+    -webkit-overflow-scrolling: touch;
 `;
 
 export const Rating = styled.div`
@@ -94,6 +98,10 @@ export const Subtitle = styled.div`
     margin-top: 1.5vh;
     color: ${({ theme }) => theme.colors.text};
     font-weight: 600;
+
+    span{
+        font-weight: normal;
+    }
 `;
 
 export const Size = styled.div`
@@ -129,6 +137,24 @@ export const Quantity = styled.div`
     color: ${({ theme }) => theme.colors.text};
     border: 2px ${({ theme }) => theme.colors.text} solid;
     height: 5vh;
-    width: 20vh;
+    width: 33%;
     border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+`;
+
+export const Add = styled.button`
+    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.secondary};
+    padding: 1vh;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
 `;

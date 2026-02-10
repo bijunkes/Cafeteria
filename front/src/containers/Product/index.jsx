@@ -7,7 +7,7 @@ import { Container } from "../../components/Background/styles";
 import HeroComponent from '../../components/Hero';
 import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
-import { Content, BackImage, Image, Rating, Title, Price, Subtitle, Size, Description, Quantity } from './styles';
+import { Content, BackImage, Image, Rating, Title, Price, Subtitle, Size, Description, Quantity, Add } from './styles';
 import { Aside } from '../Products/styles';
 
 function Product({ toggleTheme }) {
@@ -17,6 +17,21 @@ function Product({ toggleTheme }) {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
+    const [quantity, setQuantity] = useState(1);
+
+    const volumeBySize = {
+        PEQUENO: "160ml",
+        MEDIO: "200ml",
+        GRANDE: "240ml"
+    };
+
+    const increase = () => {
+        setQuantity(prev => prev + 1);
+    };
+
+    const decrease = () => {
+        setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+    };
 
     useEffect(() => {
         async function fetchProduct() {
@@ -100,9 +115,12 @@ function Product({ toggleTheme }) {
                             </span>
                         </Price>
                     </Aside>
-                    <Subtitle>
+                    <Aside>
+<Subtitle>
                         Tamanhos
                     </Subtitle>
+                    
+                    </Aside>
                     <Aside>
                         <Size
                             $active={selectedOption?.size === "PEQUENO"}
@@ -143,12 +161,18 @@ function Product({ toggleTheme }) {
                     </Description>
                     <Aside>
                         <Subtitle>
-                            Volume
+                            Volume: <span>{volumeBySize[selectedOption?.size]}
+                            </span>
                         </Subtitle>
                         <Quantity>
-
+                            <span onClick={decrease}>−</span>
+                            <span>{quantity}</span>
+                            <span onClick={increase}>+</span>
                         </Quantity>
                     </Aside>
+                    <Add>
+                        Adicionar
+                    </Add>
                 </Content>
             </Container>
             <FooterComponent
