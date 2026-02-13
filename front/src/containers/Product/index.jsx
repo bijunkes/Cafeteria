@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import api from '../../services/api';
 
+import { useCart } from '../../contexts/CartContext';
+
 import BackgroundComponent from '../../components/Background';
 import { Container } from "../../components/Background/styles";
 import HeroComponent from '../../components/Hero';
@@ -18,6 +20,8 @@ function Product({ toggleTheme }) {
     const [product, setProduct] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
     const [quantity, setQuantity] = useState(1);
+
+    const { addToCart } = useCart();
 
     const volumeBySize = {
         PEQUENO: "160ml",
@@ -56,6 +60,22 @@ function Product({ toggleTheme }) {
 
     if (!product) {
         return null;
+    }
+
+    function handleAddToCart() {
+        if (!selectedOption) return;
+
+        const cartItem = {
+            id: `${product.id}-${selectedOption.size}`,
+            productId: product.id,
+            name: product.name,
+            imageUrl: product.imageUrl,
+            size: selectedOption.size,
+            price: selectedOption.price,
+            quantity
+        }
+
+        addToCart(cartItem);
     }
 
     return (
@@ -116,10 +136,10 @@ function Product({ toggleTheme }) {
                         </Price>
                     </Aside>
                     <Aside>
-<Subtitle>
-                        Tamanhos
-                    </Subtitle>
-                    
+                        <Subtitle>
+                            Tamanhos
+                        </Subtitle>
+
                     </Aside>
                     <Aside>
                         <Size
@@ -170,7 +190,7 @@ function Product({ toggleTheme }) {
                             <span onClick={increase}>+</span>
                         </Quantity>
                     </Aside>
-                    <Add>
+                    <Add onClick={handleAddToCart}>
                         Adicionar
                     </Add>
                 </Content>

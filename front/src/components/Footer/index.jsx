@@ -22,8 +22,8 @@ function FooterComponent({ visible, onProfileClick }) {
                 </FooterButton>
 
                 <FooterButton
-                    active={isActive("/bag")}
-                    onClick={() => navigate("/bag")}
+                    active={isActive("/cart")}
+                    onClick={() => navigate("/cart")}
                 >
                     <span className="material-icons-outlined">
                         {"shopping_bag"}
