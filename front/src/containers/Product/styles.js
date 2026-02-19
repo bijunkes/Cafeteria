@@ -144,6 +144,10 @@ export const Quantity = styled.div`
     align-items: center;
     font-size: 16px;
     font-weight: bold;
+
+    span {
+        cursor: pointer;
+    }
 `;
 
 export const Add = styled.button`

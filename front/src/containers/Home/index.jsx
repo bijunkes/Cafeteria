@@ -157,13 +157,7 @@ function Home({ toggleTheme }) {
             </Container>
             <FooterComponent
                 visible={showBars}
-                onProfileClick={() => {
-                    if (!user) {
-                        navigate("/login");
-                    } else {
-                        navigate("/profile");
-                    }
-                }}
+                onProfileClick={() => navigate("/profile")}
             />
         </BackgroundComponent>
     )

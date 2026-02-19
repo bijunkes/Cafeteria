@@ -76,6 +76,8 @@ function Product({ toggleTheme }) {
         }
 
         addToCart(cartItem);
+
+        alert("Item adicionado à sacola");
     }
 
     return (
