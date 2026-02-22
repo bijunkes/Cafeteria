@@ -6,6 +6,7 @@ import path from "path";
 import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoute.js";
+import orderRouter from "./routes/orderRoute.js";
 
 dotenv.config();
 
@@ -17,10 +18,11 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/products", productRouter);
+app.use("/orders", orderRouter);
 
 app.use(
-  "/images",
-  express.static(path.resolve("uploads"))
+    "/images",
+    express.static(path.resolve("uploads"))
 );
 
 app.get("/", (req, res) => {

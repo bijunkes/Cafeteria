@@ -154,9 +154,51 @@ export const FinishButton = styled.button`
     background-color: ${({ theme }) => theme.colors.primary};
     color: white;
 
+    opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
+    pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+
     transition: 0.2s ease;
 
     &:hover {
         opacity: 0.9;
+    }
+`;
+
+export const Overlay = styled.div`
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+`;
+
+export const CheckoutModal = styled.div`
+    background: ${({ theme }) => theme.colors.background};
+    padding: 4vh;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 50vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    color: ${({ theme }) => theme.colors.text};
+`;
+
+export const CheckoutInput = styled.input`
+    padding: 1vh;
+    border-radius: 10px;
+    border: 2px solid ${({ theme }) => theme.colors.text};
+`;
+
+export const CheckoutButtons = styled.div`
+    display: flex;
+    justify-content: space-between;
+    gap: 1vh;
+
+    button {
+        color: ${({ theme }) => theme.colors.text};
     }
 `;

@@ -9,11 +9,19 @@ import { scroll } from "../../components/scroll";
 import { useCart } from "../../contexts/CartContext";
 
 import { Content } from "../Login/styles";
-import { ItemsWrapper, Title, Empty, Back, Item, ItemImage, ItemInfo, ItemActions, QuantityControl, RemoveButton, Summary, Total, FinishButton } from "./styles";
+import { ItemsWrapper, Title, Empty, Back, Item, ItemImage, ItemInfo, ItemActions, QuantityControl, RemoveButton, Summary, Total, FinishButton, Overlay, CheckoutModal, CheckoutInput, CheckoutButtons } from "./styles";
+
+import api from "../../services/api";
 
 function Cart({ toggleTheme }) {
     const showBars = scroll();
     const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
+
+    const [showCheckout, setShowCheckout] = useState(false);
+    const [customerName, setCustomerName] = useState("");
+    const [table, setTable] = useState("");
 
     const {
         cartItems,
@@ -24,13 +32,38 @@ function Cart({ toggleTheme }) {
         clearCart
     } = useCart();
 
-    function handleFinish() {
-        if (cartItems.length === 0) return;
+    async function handleFinish() {
+        if (!customerName || !table) {
+            alert("Preencha nome e mesa");
+            return;
+        }
 
-        console.log("Pedido enviado:", cartItems);
+        try {
+            setLoading(true);
 
-        clearCart();
-        navigate("/");
+            const orderData = {
+                customerName,
+                table,
+                total,
+                items: cartItems.map(item => ({
+                    productId: item.productId,
+                    productOptionId: item.productOptionId,
+                    quantity: item.quantity
+                }))
+            }
+
+            await api.post("/orders", orderData);
+
+            clearCart();
+            alert("Pedido feito, obrigado pela preferência");
+            navigate("/");
+
+        } catch (err) {
+            console.log(err);
+            alert("Erro ao finalizar pedido");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -92,13 +125,11 @@ function Cart({ toggleTheme }) {
                                         Total: <span>R$ {total.toFixed(2)}</span>
                                     </Total>
 
-                                    <FinishButton onClick={handleFinish}>
-                                        Finalizar Pedido
+                                    <FinishButton onClick={() => setShowCheckout(true)}>
+                                        Finalizar pedido
                                     </FinishButton>
                                 </Summary>
-
                             </>
-
                         )}
                 </Content>
             </Container>
@@ -106,6 +137,37 @@ function Cart({ toggleTheme }) {
                 visible={showBars}
                 onProfileClick={() => navigate("/profile")}
             />
+            {showCheckout && (
+                <Overlay onClick={() => setShowCheckout(false)}>
+                    <CheckoutModal onClick={(e) => e.stopPropagation()}>
+                        <h3>Finalizar Pedido</h3>
+
+                        <CheckoutInput
+                            type="text"
+                            placeholder="Seu nome"
+                            value={customerName}
+                            onChange={(e) => setCustomerName(e.target.value)}
+                        />
+
+                        <CheckoutInput
+                            type="text"
+                            placeholder="Mesa"
+                            value={table}
+                            onChange={(e) => setTable(e.target.value)}
+                        />
+
+                        <CheckoutButtons>
+                            <button onClick={() => setShowCheckout(false)}>
+                                Cancelar
+                            </button>
+
+                            <button onClick={handleFinish}>
+                                Confirmar
+                            </button>
+                        </CheckoutButtons>
+                    </CheckoutModal>
+                </Overlay>
+            )}
         </BackgroundComponent>
     );
 }

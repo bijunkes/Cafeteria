@@ -68,6 +68,7 @@ function Product({ toggleTheme }) {
         const cartItem = {
             id: `${product.id}-${selectedOption.size}`,
             productId: product.id,
+            productOptionId: selectedOption.id,
             name: product.name,
             imageUrl: product.imageUrl,
             size: selectedOption.size,
