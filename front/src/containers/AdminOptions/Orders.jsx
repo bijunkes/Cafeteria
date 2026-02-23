@@ -7,12 +7,16 @@ import { Container } from "../../components/Background/styles";
 import HeroComponent from '../../components/Hero';
 import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
-import { ScrollContent, Title, Order } from "./styles";
+import { ScrollContent, Title, OrderStatus, Order, OrderId, OrderInfo, ReadyButton } from "./styles";
+import { Aside } from "./styles";
 
 function Orders({ toggleTheme }) {
     const showBars = scroll();
 
     const [orders, setOrders] = useState([]);
+    const [filter, setFilter] = useState("pendentes");
+    const pendingOrders = orders.filter(order => order.status !== "pronto");
+    const finishedOrders = orders.filter(order => order.status === "pronto");
 
     async function fetchOrders() {
         try {
@@ -39,6 +43,13 @@ function Orders({ toggleTheme }) {
         fetchOrders();
     }, []);
 
+    const filteredOrders = orders.filter(order => {
+        if (filter === "pendentes") {
+            return order.status !== "pronto";
+        }
+        return order.status === "pronto";
+    });
+
     return (
         <BackgroundComponent>
             <HeroComponent
@@ -51,9 +62,40 @@ function Orders({ toggleTheme }) {
                     <Title>
                         Pedidos
                     </Title>
-                    {orders.map(order => (
-                        <Order>
-                            A
+                    <Aside>
+                        <OrderStatus
+                            active={filter === "pendentes"}
+                            onClick={() => setFilter("pendentes")}>
+                            Pendentes
+                        </OrderStatus>
+                        <OrderStatus
+                        active={filter === "finalizados"}
+                            onClick={() => setFilter("finalizados")}>
+                            Finalizados
+                        </OrderStatus>
+                    </Aside>
+                    {filteredOrders.map(order => (
+                        <Order key={order.id}>
+                            <OrderId>Pedido #{order.id}</OrderId>
+                            <OrderInfo>
+                                <p>Cliente: {order.customerName}</p>
+                                <p>Mesa: {order.table}</p>
+                                <p>Status: {order.status}</p>
+                            </OrderInfo>
+                            <ul>
+                                {order.items.map(item => (
+                                    <li key={item.id}>
+                                        {item.quantity}x {item.product.name} ({item.productOption.size})
+                                    </li>
+                                ))}
+                            </ul>
+                            {order.status !== "pronto" && (
+    <ReadyButton onClick={() => markAsReady(order.id)}>
+        <span className="material-icons-outlined">
+            check_box
+        </span>
+    </ReadyButton>
+)}
                         </Order>
                     ))}
                 </ScrollContent>

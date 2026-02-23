@@ -49,7 +49,7 @@ export async function getAllOrders(req, res) {
                 }
             },
             orderBy: {
-                createdAt: "desc"
+                createdAt: "asc"
             }
         });
         return res.json(orders);

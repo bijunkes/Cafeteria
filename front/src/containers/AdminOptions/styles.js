@@ -93,16 +93,62 @@ export const TableCell = styled.div`
     font-weight: ${({ header }) => (header ? 600 : 400)};
 `;
 
+export const OrderStatus = styled.div`
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.text};
+    display: flex;
+    width: 100%;
+    height: 5vh;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    background: ${({ active, theme }) =>
+        active ? theme.colors.primary : theme.colors.secondary};
+    transition: 0.2s;
+`;
+
 export const Order = styled.div`
-    height: 10vh;
+    height: fit-content;
     width: 100%;
     display: flex;
-    padding: 2vh;
+    padding: 1.5vh 3vh;
     border-radius: 20px;
     background-color: ${({ theme }) => theme.colors.secondary};
     color: ${({ theme }) => theme.colors.text};
+    align-items: center;
+    justify-content: space-between;
 
     &:last-child {
         margin-bottom: 10vh;
+    }
+`;
+
+export const OrderId = styled.div`
+    font-weight: bold;
+`;
+
+export const OrderInfo = styled.div`
+`;
+
+export const ReadyButton = styled.button`
+    background: ${({ theme }) => theme.colors.secondary};
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+
+    span {
+        color: white;
+        font-size: 22px;
+    }
+
+    &:hover {
+        transform: scale(1.1);
+        opacity: 0.9;
     }
 `;
