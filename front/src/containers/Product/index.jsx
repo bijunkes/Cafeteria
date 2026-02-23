@@ -10,7 +10,7 @@ import HeroComponent from '../../components/Hero';
 import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
 import { Content, BackImage, Image, Rating, Title, Price, Subtitle, Size, Description, Quantity, Add } from './styles';
-import { Aside } from '../Products/styles';
+import { Aside } from '../AdminOptions/styles';
 
 function Product({ toggleTheme }) {
     const showBars = scroll();

@@ -92,3 +92,17 @@ export const TableCell = styled.div`
 
     font-weight: ${({ header }) => (header ? 600 : 400)};
 `;
+
+export const Order = styled.div`
+    height: 10vh;
+    width: 100%;
+    display: flex;
+    padding: 2vh;
+    border-radius: 20px;
+    background-color: ${({ theme }) => theme.colors.secondary};
+    color: ${({ theme }) => theme.colors.text};
+
+    &:last-child {
+        margin-bottom: 10vh;
+    }
+`;

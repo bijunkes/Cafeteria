@@ -16,12 +16,14 @@ import Product from './containers/Product';
 import Login from './containers/Login';
 import Profile from './containers/Profile';
 import SignUp from './containers/SignUp';
-import Products from './containers/Products';
+import Products from './containers/AdminOptions';
 import Cart from './containers/Cart';
 
-import CreateProduct from './containers/Products/Create';
-import EditProduct from './containers/Products/Edit';
-import DeleteProduct from './containers/Products/Delete';
+import CreateProduct from './containers/AdminOptions/Create';
+import EditProduct from './containers/AdminOptions/Edit';
+import DeleteProduct from './containers/AdminOptions/Delete';
+
+import Orders from './containers/AdminOptions/Orders';
 
 function App() {
     const [theme, setTheme] = useState("light");
@@ -111,6 +113,15 @@ function App() {
                                 element={
                                     <AdminRoute>
                                         <DeleteProduct toggleTheme={toggleTheme} />
+                                    </AdminRoute>
+                                }
+                            />
+
+                            <Route
+                                path="/orders"
+                                element={
+                                    <AdminRoute>
+                                        <Orders toggleTheme={toggleTheme} />
                                     </AdminRoute>
                                 }
                             />

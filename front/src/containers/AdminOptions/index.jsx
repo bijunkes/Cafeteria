@@ -22,11 +22,13 @@ function Products({ toggleTheme }) {
                 showSearch={false}
             />
             <Container>
-                <Content style={{gap: '4vh'}}>
+                <Content style={{gap: '2vh'}}>
                     <Title>Produtos</Title>
                     <Button onClick={() => navigate("/products/create")}>Cadastrar</Button>
                     <Button onClick={() => navigate("/products/edit")}>Editar</Button>
                     <Button onClick={() => navigate("/products/delete")}>Excluir</Button>
+                    <Title style={{marginTop: '4vh'}}>Pedidos</Title>
+                    <Button onClick={() => navigate("/orders")}>Visualizar</Button>
                 </Content>
             </Container>
             <FooterComponent

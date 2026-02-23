@@ -59,3 +59,24 @@ export async function getAllOrders(req, res) {
         return res.status(500).json({error: "Erro ao buscar pedidos"});
     }
 }
+
+export async function updateOrderStatus(req, res) {
+    try {
+        const {id} = req.params;
+        const {status} = req.body;
+
+        const order = await prisma.order.update({
+            where: {
+                id: Number(id)
+            },
+            data: {
+                status
+            }
+        });
+
+        return res.json(order);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({error: "Erro ao atualizar status"});
+    }
+}
