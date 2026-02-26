@@ -53,7 +53,7 @@ export const Item = styled.div`
     border-radius: 20px;
     width: 100%;
     height: 14vh;
-    gap: 2vh;
+    gap: 2.5vh;
     margin-bottom: auto;
 
     background-color: ${({ theme }) => theme.colors.secondary};
@@ -95,15 +95,15 @@ export const ItemInfo = styled.div`
 export const ItemActions = styled.div`
     margin-left: auto;
     display: flex;
-    flex-direction: column;
     align-items: flex-end;
+    margin-top: auto;
     gap: 1vh;
 `;
 
 export const QuantityControl = styled.div`
     display: flex;
     align-items: center;
-    gap: 2vw;
+    gap: 1vh;
 
     button {
         width: 28px;
@@ -113,6 +113,7 @@ export const QuantityControl = styled.div`
         cursor: pointer;
         font-weight: bold;
         background-color: ${({ theme }) => theme.colors.secondary};
+        color: ${({ theme }) => theme.colors.text};
     }
 `;
 
@@ -120,7 +121,13 @@ export const RemoveButton = styled.button`
     border: none;
     background: none;
     cursor: pointer;
-    color: red;
+    display: flex;
+    align-items: center;
+    color: ${({ theme }) => theme.colors.text};
+
+    &:hover {
+        color: red;
+    }
 `;
 
 export const Summary = styled.div`
@@ -137,10 +144,6 @@ export const Total = styled.div`
     justify-content: space-between;
     font-weight: 600;
     color: ${({ theme }) => theme.colors.text};
-
-    span {
-        color: ${({ theme }) => theme.colors.primary};
-    }
 `;
 
 export const FinishButton = styled.button`

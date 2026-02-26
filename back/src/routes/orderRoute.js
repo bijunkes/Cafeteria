@@ -4,7 +4,7 @@ import { authenticateToken } from "../middleware/auth.js";
 
 const orderRouter = express.Router();
 
-orderRouter.post("/", createOrder);
+orderRouter.post("/", authenticateToken, createOrder);
 orderRouter.get("/", getAllOrders);
 orderRouter.patch("/:id/status", updateOrderStatus);
 
