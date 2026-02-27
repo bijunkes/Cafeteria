@@ -9,7 +9,7 @@ import { scroll } from "../../components/scroll";
 import { ScrollContent, Product } from "./styles";
 import api from "../../services/api";
 
-function EditProduct({ toggleTheme }) {
+function Edit({ toggleTheme }) {
     const showBars = scroll();
     const navigate = useNavigate();
 
@@ -22,6 +22,25 @@ function EditProduct({ toggleTheme }) {
             setProducts(response.data);
         } catch (err) {
             console.log(err);
+        }
+    }
+
+    async function handleDelete(id) {
+        const confirmDelete = window.confirm(
+            "Deseja excluir este produto definitivamente?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            await api.delete(`/products/${id}`);
+
+            setProducts(prev =>
+                prev.filter(product => product.id !== id)
+            );
+        } catch (err) {
+            console.log(err);
+            alert("Erro ao excluir produto");
         }
     }
 
@@ -44,14 +63,38 @@ function EditProduct({ toggleTheme }) {
                 toggleTheme={toggleTheme}
                 showSearch={true}
                 onSearch={setSearch}
+                showAddButton={true}
+                onAddClick={() => navigate("/products/create")}
             />
             <Container>
                 <ScrollContent style={{ marginTop: "3vh" }}>
                     {filteredProducts.map(product => (
                         <Product key={product.id}>
-                            <p>
-                                {product.name}
-                            </p>
+                            <div className="info">
+                                <p>{product.name}</p>
+                            </div>
+
+                            <div className="actions">
+
+                                <button
+                                    onClick={() => navigate(`/products/edit-product/${product.id}`)}
+                                    title="Editar produto"
+                                >
+                                    <span className="material-icons-outlined">
+                                        settings
+                                    </span>
+                                </button>
+
+                                <button
+                                    onClick={() => handleDelete(product.id)}
+                                    title="Excluir produto"
+                                >
+                                    <span className="material-icons-outlined">
+                                        delete
+                                    </span>
+                                </button>
+
+                            </div>
                         </Product>
                     ))}
                 </ScrollContent>
@@ -64,4 +107,4 @@ function EditProduct({ toggleTheme }) {
     )
 }
 
-export default EditProduct;
+export default Edit;

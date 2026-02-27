@@ -20,7 +20,8 @@ import Products from './containers/AdminOptions';
 import Cart from './containers/Cart';
 
 import CreateProduct from './containers/AdminOptions/Create';
-import EditProduct from './containers/AdminOptions/Edit';
+import Edit from './containers/AdminOptions/Edit';
+import EditProduct from './containers/AdminOptions/EditProduct';
 
 import Orders from './containers/AdminOptions/Orders';
 
@@ -100,6 +101,15 @@ function App() {
 
                             <Route
                                 path="/products/edit"
+                                element={
+                                    <AdminRoute>
+                                        <Edit toggleTheme={toggleTheme} />
+                                    </AdminRoute>
+                                }
+                            />
+
+                            <Route
+                                path="/products/edit-product/:id"
                                 element={
                                     <AdminRoute>
                                         <EditProduct toggleTheme={toggleTheme} />

@@ -89,6 +89,16 @@ export const Search = styled.div `
     
     color: ${({ theme }) => theme.colors.text};
     background-color: ${({ theme }) => theme.colors.primary};
+
+    .add-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        color: ${({ theme }) => theme.colors.text};
+    }
 `;
 
 export const SearchInput = styled.input`

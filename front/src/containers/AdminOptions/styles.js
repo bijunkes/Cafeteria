@@ -167,4 +167,23 @@ export const Product = styled.div`
     &:last-child {
         margin-bottom: 10vh;
     }
+
+    .actions {
+        display: flex;
+        gap: 1vh;
+
+        button {
+            color: ${({ theme }) => theme.colors.text};
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    &:hover {
+        background-color: ${({ theme }) => theme.colors.primary};
+    }
 `;

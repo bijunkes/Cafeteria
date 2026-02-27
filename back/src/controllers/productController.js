@@ -110,7 +110,7 @@ export async function update(req, res) {
             type,
             options,
             recommended,
-            inStock } = req.body();
+            inStock } = req.body;
 
         const parsedOptions = JSON.parse(options);
 
@@ -142,6 +142,7 @@ export async function update(req, res) {
 
     } catch (err) {
         res.status(500).json({ error: "Erro ao atualizar produto" });
+        console.log(err)
     }
 }
 

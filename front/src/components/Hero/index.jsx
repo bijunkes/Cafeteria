@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTheme } from "styled-components";
 import { Hero, OverlayHero, ContentHero, Top, Title, Theme, Search, SearchInput, FloatingTheme } from "./styles";
 
-function HeroComponent({ visible, toggleTheme, showSearch = true, variant = "full", onSearch }) {
+function HeroComponent({ visible, toggleTheme, showSearch = true, variant = "full", onSearch, showAddButton = false, onAddClick }) {
     const theme = useTheme();
     const [query, setQuery] = useState("");
 
@@ -47,6 +47,19 @@ function HeroComponent({ visible, toggleTheme, showSearch = true, variant = "ful
                             <SearchInput placeholder="Pesquisar"
                                 value={query}
                                 onChange={handleChange} />
+
+                            {showAddButton && (
+                                <button
+                                    className="add-button"
+                                    onClick={onAddClick}
+                                    title="Cadastrar produto"
+                                >
+                                    <span className="material-icons-outlined">
+                                        add
+                                    </span>
+                                    
+                                </button>
+                            )}
                         </Search>
                     )}
                 </ContentHero>
