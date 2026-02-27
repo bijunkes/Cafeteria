@@ -21,7 +21,6 @@ import Cart from './containers/Cart';
 
 import CreateProduct from './containers/AdminOptions/Create';
 import EditProduct from './containers/AdminOptions/Edit';
-import DeleteProduct from './containers/AdminOptions/Delete';
 
 import Orders from './containers/AdminOptions/Orders';
 
@@ -104,15 +103,6 @@ function App() {
                                 element={
                                     <AdminRoute>
                                         <EditProduct toggleTheme={toggleTheme} />
-                                    </AdminRoute>
-                                }
-                            />
-
-                            <Route
-                                path="/products/delete"
-                                element={
-                                    <AdminRoute>
-                                        <DeleteProduct toggleTheme={toggleTheme} />
                                     </AdminRoute>
                                 }
                             />

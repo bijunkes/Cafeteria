@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import api from "../../services/api";
 
@@ -12,11 +13,10 @@ import { Aside } from "./styles";
 
 function Orders({ toggleTheme }) {
     const showBars = scroll();
+    const navigate = useNavigate();
 
     const [orders, setOrders] = useState([]);
     const [filter, setFilter] = useState("pendentes");
-    const pendingOrders = orders.filter(order => order.status !== "pronto");
-    const finishedOrders = orders.filter(order => order.status === "pronto");
 
     async function fetchOrders() {
         try {
@@ -69,7 +69,7 @@ function Orders({ toggleTheme }) {
                             Pendentes
                         </OrderStatus>
                         <OrderStatus
-                        active={filter === "finalizados"}
+                            active={filter === "finalizados"}
                             onClick={() => setFilter("finalizados")}>
                             Finalizados
                         </OrderStatus>
@@ -90,12 +90,12 @@ function Orders({ toggleTheme }) {
                                 ))}
                             </ul>
                             {order.status !== "pronto" && (
-    <ReadyButton onClick={() => markAsReady(order.id)}>
-        <span className="material-icons-outlined">
-            check_box
-        </span>
-    </ReadyButton>
-)}
+                                <ReadyButton onClick={() => markAsReady(order.id)}>
+                                    <span className="material-icons-outlined">
+                                        check_box
+                                    </span>
+                                </ReadyButton>
+                            )}
                         </Order>
                     ))}
                 </ScrollContent>

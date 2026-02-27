@@ -152,3 +152,19 @@ export const ReadyButton = styled.button`
         opacity: 0.9;
     }
 `;
+
+export const Product = styled.div`
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    padding: 1.5vh 3vh;
+    border-radius: 20px;
+    background-color: ${({ theme }) => theme.colors.secondary};
+    color: ${({ theme }) => theme.colors.text};
+    align-items: center;
+    justify-content: space-between;
+
+    &:last-child {
+        margin-bottom: 10vh;
+    }
+`;

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from 'react-router-dom';
-import api from "../../services/api";
 
 import BackgroundComponent from '../../components/Background';
 import { Container } from "../../components/Background/styles";
@@ -26,7 +25,6 @@ function Products({ toggleTheme }) {
                     <Title>Produtos</Title>
                     <Button onClick={() => navigate("/products/create")}>Cadastrar</Button>
                     <Button onClick={() => navigate("/products/edit")}>Editar</Button>
-                    <Button onClick={() => navigate("/products/delete")}>Excluir</Button>
                     <Title style={{marginTop: '4vh'}}>Pedidos</Title>
                     <Button onClick={() => navigate("/orders")}>Visualizar</Button>
                 </Content>

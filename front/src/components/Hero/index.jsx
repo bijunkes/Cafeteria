@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTheme } from "styled-components";
 import { Hero, OverlayHero, ContentHero, Top, Title, Theme, Search, SearchInput, FloatingTheme } from "./styles";
 
-function HeroComponent({ visible, toggleTheme, showSearch = true, variant = "full", products = [] }) {
+function HeroComponent({ visible, toggleTheme, showSearch = true, variant = "full", onSearch }) {
     const theme = useTheme();
     const [query, setQuery] = useState("");
 
@@ -12,15 +12,9 @@ function HeroComponent({ visible, toggleTheme, showSearch = true, variant = "ful
         const value = e.target.value;
         setQuery(value);
 
-        if (!value) {
-            setFiltered([]);
-            return;
+        if (onSearch) {
+            onSearch(value);
         }
-
-        const filteredProducts = products.filter(p =>
-            p.name.toLowerCase().includes(value.toLowerCase())
-        );
-        setFiltered(filteredProducts);
     }
 
     if (isMinimal) {

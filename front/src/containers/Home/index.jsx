@@ -20,6 +20,7 @@ function Home({ toggleTheme }) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [products, setProducts] = useState([]);
     const [filtered, setFiltered] = useState([]);
+    const [search, setSearch] = useState("");
 
     const menuProducts = [...products].sort((a, b) =>
         a.name.localeCompare(b.name, "pt-BR")
@@ -45,6 +46,31 @@ function Home({ toggleTheme }) {
             products.filter(p => p.type === map[category])
         );
     }
+
+    const filteredProducts = products
+        .filter(product => {
+            const matchesSearch = product.name
+                .toLowerCase()
+                .includes(search.toLowerCase());
+
+            const category = categories[activeIndex];
+
+            if (category === "Favoritos") {
+                return matchesSearch && product.recommended;
+            }
+
+            const map = {
+                "Clássicos": "Classico",
+                "Com leite": "Com_leite",
+                "Especiais": "Especial",
+                "Gelados": "Gelado"
+            };
+
+            return matchesSearch && product.type === map[category];
+        })
+        .sort((a, b) =>
+            a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" })
+        );
 
     useEffect(() => {
         async function loadProducts() {
@@ -74,6 +100,7 @@ function Home({ toggleTheme }) {
                 visible={showBars}
                 toggleTheme={toggleTheme}
                 showSearch={true}
+                onSearch={setSearch}
             />
             <Container>
                 <Classes>
@@ -89,7 +116,7 @@ function Home({ toggleTheme }) {
                 </Classes>
 
                 <Products ref={productsRef}>
-                    {filtered.map(product => (
+                    {filteredProducts.map(product => (
                         <Product
                             key={product.id}
                             onClick={() => navigate(`/product/${product.id}`)}
