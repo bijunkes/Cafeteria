@@ -12,8 +12,7 @@ export const ScrollContent = styled.div`
 `;
 
 export const Title = styled.button`
-    font-size: 22px;
-    margin-bottom: 1vh;
+    font-size: 20px;
     font-weight: 700;
     color: ${({ theme }) => theme.colors.text};
 `;
@@ -164,13 +163,14 @@ export const Product = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    &:last-child {
-        margin-bottom: 10vh;
-    }
-
     .actions {
         display: flex;
         gap: 1vh;
+
+        opacity: 0;
+        transform: translateX(10px);
+        transition: all 0.2s ease;
+        pointer-events: none;
 
         button {
             color: ${({ theme }) => theme.colors.text};
@@ -186,4 +186,21 @@ export const Product = styled.div`
     &:hover {
         background-color: ${({ theme }) => theme.colors.primary};
     }
+
+    &:hover .actions {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: all;
+    }
+
+    &:last-child {
+        margin-bottom: 10vh;
+    }
+`;
+
+export const Edit = styled.div`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 `;

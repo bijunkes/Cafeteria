@@ -26,6 +26,13 @@ function Home({ toggleTheme }) {
         a.name.localeCompare(b.name, "pt-BR")
     );
 
+    const filteredMenuProducts = menuProducts
+    .filter(product =>
+        product.name
+            .toLowerCase()
+            .startsWith(search.toLowerCase())
+    );
+
     const productsRef = useRef(null);
 
     function handleCategory(index) {
@@ -48,29 +55,25 @@ function Home({ toggleTheme }) {
     }
 
     const filteredProducts = products
-        .filter(product => {
-            const matchesSearch = product.name
-                .toLowerCase()
-                .includes(search.toLowerCase());
+    .filter(product => {
+        const category = categories[activeIndex];
 
-            const category = categories[activeIndex];
+        if (category === "Favoritos") {
+            return product.recommended;
+        }
 
-            if (category === "Favoritos") {
-                return matchesSearch && product.recommended;
-            }
+        const map = {
+            "Clássicos": "Classico",
+            "Com leite": "Com_leite",
+            "Especiais": "Especial",
+            "Gelados": "Gelado"
+        };
 
-            const map = {
-                "Clássicos": "Classico",
-                "Com leite": "Com_leite",
-                "Especiais": "Especial",
-                "Gelados": "Gelado"
-            };
-
-            return matchesSearch && product.type === map[category];
-        })
-        .sort((a, b) =>
-            a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" })
-        );
+        return product.type === map[category];
+    })
+    .sort((a, b) =>
+        a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" })
+    );
 
     useEffect(() => {
         async function loadProducts() {
@@ -137,7 +140,7 @@ function Home({ toggleTheme }) {
                         Cardápio
                     </MenuTitle>
                     <Items>
-                        {menuProducts.map(product => (
+                        {filteredMenuProducts.map(product => (
                             <Item key={product.id}
                                 onClick={() => navigate(`/product/${product.id}`)}>
                                 <ItemImage>

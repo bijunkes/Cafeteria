@@ -46,7 +46,9 @@ function Edit({ toggleTheme }) {
 
     const filteredProducts = products
         .filter(product =>
-            product.name.toLowerCase().includes(search.toLowerCase())
+            product.name
+                .toLowerCase()
+                .startsWith(search.toLowerCase())
         )
         .sort((a, b) =>
             a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" })

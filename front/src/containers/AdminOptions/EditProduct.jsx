@@ -6,7 +6,9 @@ import { Container } from "../../components/Background/styles";
 import HeroComponent from '../../components/Hero';
 import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
-import { ScrollContent, Product } from "./styles";
+import { ScrollContent, Edit, Title } from "./styles";
+import { Input, InputContent } from "../Login/styles";
+
 import api from "../../services/api";
 
 function EditProduct({ toggleTheme }) {
@@ -26,20 +28,28 @@ function EditProduct({ toggleTheme }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const formData = new FormData();
+        try {
+            const formData = new FormData();
 
-        formData.append("name", name);
-        formData.append("description", description);
-        formData.append("type", type);
-        formData.append("recommended", recommended);
-        formData.append("inStock", inStock);
-        formData.append("options", JSON.stringify(options));
+            formData.append("name", name);
+            formData.append("description", description);
+            formData.append("type", type);
+            formData.append("recommended", recommended);
+            formData.append("inStock", inStock);
 
-        if (image) {
-            formData.append("image", image);
+            if (image) {
+                formData.append("image", image);
+            }
+
+            await api.put(`/products/${id}`, formData);
+
+            alert("Produto atualizado");
+            navigate("/products/edit");
+
+        } catch (err) {
+            console.log(err);
+            alert("Erro ao atualizar produto");
         }
-
-        await api.put(`/products/${id}`, formData);
     }
 
     useEffect(() => {
@@ -66,14 +76,21 @@ function EditProduct({ toggleTheme }) {
                 showSearch={false}
             />
             <Container>
-                <ScrollContent style={{ marginTop: "3vh" }}>
-                    <form onSubmit={handleSubmit}>
+                <ScrollContent>
+                    <Title>Editar produto</Title>
+                    <Edit as="form" onSubmit={handleSubmit}>
+                        <Input>
+                            <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
+                                {"local_cafe"}
+                            </span>
+                            <InputContent
+                                value={name}
+                                onChange={e => setName(e.target.value)}
+                                placeholder="Nome"></InputContent>
+                        </Input>
 
-                        <input
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                            placeholder="Nome"
-                        />
+
+
 
                         <textarea
                             value={description}
@@ -109,7 +126,6 @@ function EditProduct({ toggleTheme }) {
                             Em estoque
                         </label>
 
-                        {/* IMAGEM */}
                         <input
                             type="file"
                             onChange={e => setImage(e.target.files[0])}
@@ -118,8 +134,7 @@ function EditProduct({ toggleTheme }) {
                         <button type="submit">
                             Salvar alterações
                         </button>
-
-                    </form>
+                    </Edit>
                 </ScrollContent>
             </Container>
             <FooterComponent

@@ -105,35 +105,26 @@ export async function getProduct(req, res) {
 export async function update(req, res) {
     try {
         const { id } = req.params;
-        const { name,
+
+        const {
+            name,
             description,
             type,
-            options,
             recommended,
-            inStock } = req.body;
+            inStock
+        } = req.body;
 
-        const parsedOptions = JSON.parse(options);
-
-        const imageUrl = req.file ? req.file.path : undefined;
+        const imageUrl = req.file ? req.file.filename : undefined;
 
         const product = await prisma.product.update({
-            where: {
-                id: Number(id)
-            },
+            where: { id: Number(id) },
             data: {
                 name,
                 description,
                 type,
                 recommended: recommended === "true" || recommended === true,
                 inStock: inStock === "true" || inStock === true,
-                ...(imageUrl && { imageUrl }),
-                options: {
-                    deleteMany: {},
-                    create: parsedOptions.map(opt => ({
-                        size: opt.size,
-                        price: Number(opt.price)
-                    }))
-                }
+                ...(imageUrl && { imageUrl })
             },
             include: { options: true }
         });
@@ -141,8 +132,8 @@ export async function update(req, res) {
         return res.status(200).json(product);
 
     } catch (err) {
-        res.status(500).json({ error: "Erro ao atualizar produto" });
-        console.log(err)
+        console.log(err);
+        return res.status(500).json({ error: "Erro ao atualizar produto" });
     }
 }
 
