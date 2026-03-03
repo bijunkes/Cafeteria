@@ -8,6 +8,7 @@ import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
 import { Title, Button } from "./styles";
 import { Content } from "../Login/styles";
+import { Admin } from "../Profile/styles";
 
 function Products({ toggleTheme }) {
     const showBars = scroll();
@@ -21,12 +22,32 @@ function Products({ toggleTheme }) {
                 showSearch={false}
             />
             <Container>
-                <Content style={{gap: '2vh'}}>
-                    <Title>Produtos</Title>
-                    <Button onClick={() => navigate("/products/edit")}>Editar</Button>
-                    
-                    <Title style={{marginTop: '4vh'}}>Pedidos</Title>
-                    <Button onClick={() => navigate("/orders")}>Visualizar</Button>
+                <Content>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2vh",
+                        width: "100%",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flex: 1
+                    }}>
+                        <Title style={{marginBottom: "2vh"}}>
+                            Configurações
+                        </Title>
+                        <Button onClick={() => navigate("/products/edit")}>
+                            Produtos
+                        </Button>
+
+                        <Button onClick={() => navigate("/orders")}>
+                            Pedidos
+                        </Button>
+                    </div>
+                    <Admin style={{ marginTop: "auto" }} onClick={() => navigate("/profile")} title="Voltar">
+                        <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
+                            {"arrow_back"}
+                        </span>
+                    </Admin>
                 </Content>
             </Container>
             <FooterComponent

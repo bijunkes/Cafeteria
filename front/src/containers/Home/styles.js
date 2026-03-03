@@ -47,6 +47,9 @@ export const Products = styled.div`
     scroll-behavior: smooth;
     gap: 3vh;
 
+    justify-content: ${({ hasOverflow }) =>
+        hasOverflow ? "flex-start" : "center"};
+
     &::-webkit-scrollbar {
         height: 0;
     }

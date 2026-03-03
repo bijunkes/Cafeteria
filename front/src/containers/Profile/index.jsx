@@ -113,13 +113,13 @@ function Profile({ toggleTheme }) {
                     </Field>
                     <Save onClick={handleSave} $visible={hasChanges}>Salvar</Save>
                     <Side>
-                        <Logout onClick={handleLogout}>
+                        <Logout onClick={handleLogout} title='Logout'>
                             <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
                                 {"logout"}
                             </span>
                         </Logout>
                         {user?.role === "admin" && (
-                            <Admin onClick={() => navigate("/products")}>
+                            <Admin onClick={() => navigate("/products")} title='Configurações'>
                                 <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
                                     {"settings"}
                                 </span>

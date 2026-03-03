@@ -39,6 +39,16 @@ function Orders({ toggleTheme }) {
         }
     }
 
+    function formatSize(size) {
+        if (!size) return "";
+
+        if (size.includes("PEQUENO")) return "P";
+        if (size.includes("MEDIO")) return "M";
+        if (size.includes("GRANDE")) return "G";
+
+        return size;
+    }
+
     useEffect(() => {
         fetchOrders();
     }, []);
@@ -76,16 +86,15 @@ function Orders({ toggleTheme }) {
                     </Aside>
                     {filteredOrders.map(order => (
                         <Order key={order.id}>
-                            <OrderId>Pedido #{order.id}</OrderId>
+                            <OrderId>#{order.id}</OrderId>
                             <OrderInfo>
-                                <p>Cliente: {order.customerName}</p>
-                                <p>Mesa: {order.table}</p>
-                                <p>Status: {order.status}</p>
+                                <p><span>Cliente:</span> {order.customerName}</p>
+                                <p><span>Mesa: </span>{order.table}</p>
                             </OrderInfo>
                             <ul>
                                 {order.items.map(item => (
                                     <li key={item.id}>
-                                        {item.quantity}x {item.product.name} ({item.productOption.size})
+                                        {item.quantity}x {item.product.name} ({formatSize(item.productOption.size)})
                                     </li>
                                 ))}
                             </ul>

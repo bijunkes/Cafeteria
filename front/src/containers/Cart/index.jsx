@@ -107,17 +107,17 @@ function Cart({ toggleTheme }) {
                                             </ItemInfo>
 
                                             <ItemActions>
-                                                    <RemoveButton onClick={() => removeFromCart(item.id)}>
-                                                        <span className="material-icons-outlined">
-                                                            {"delete"}
-                                                        </span>
-                                                    </RemoveButton>
-                                                    <QuantityControl>
-                                                        <button onClick={() => decreaseQuantity(item.id)}>−</button>
-                                                        <span>{item.quantity}</span>
-                                                        <button onClick={() => increaseQuantity(item.id)}>+</button>
-                                                    </QuantityControl>
-                                                    
+                                                <RemoveButton onClick={() => removeFromCart(item.id)}>
+                                                    <span className="material-icons-outlined">
+                                                        {"delete"}
+                                                    </span>
+                                                </RemoveButton>
+                                                <QuantityControl>
+                                                    <button onClick={() => decreaseQuantity(item.id)}>−</button>
+                                                    <span>{item.quantity}</span>
+                                                    <button onClick={() => increaseQuantity(item.id)}>+</button>
+                                                </QuantityControl>
+
                                             </ItemActions>
                                         </Item>
                                     ))}

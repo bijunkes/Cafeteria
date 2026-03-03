@@ -107,33 +107,37 @@ export const OrderStatus = styled.div`
 `;
 
 export const Order = styled.div`
-    height: fit-content;
     width: 100%;
-    display: flex;
-    padding: 1.5vh 3vh;
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 0.5fr;
+    align-items: center;
+    gap: 2vh;
+
+    padding: 2vh 3vh;
     border-radius: 20px;
     background-color: ${({ theme }) => theme.colors.secondary};
     color: ${({ theme }) => theme.colors.text};
-    align-items: center;
-    justify-content: space-between;
 
     &:last-child {
         margin-bottom: 10vh;
+    }
+
+    span{
+        font-weight: bold;
+        font-size: 14px;
     }
 `;
 
 export const OrderId = styled.div`
     font-weight: bold;
+    font-size: 14px;
 `;
 
 export const OrderInfo = styled.div`
 `;
 
 export const ReadyButton = styled.button`
-    background: ${({ theme }) => theme.colors.secondary};
     border: none;
-    width: 40px;
-    height: 40px;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -142,8 +146,8 @@ export const ReadyButton = styled.button`
     transition: 0.2s;
 
     span {
-        color: white;
-        font-size: 22px;
+        font-size: 20px;
+        color: ${({ theme }) => theme.colors.text};
     }
 
     &:hover {
@@ -170,9 +174,9 @@ export const Product = styled.div`
         opacity: 0;
         transform: translateX(10px);
         transition: all 0.2s ease;
-        pointer-events: none;
 
         button {
+            pointer-events: none;
             color: ${({ theme }) => theme.colors.text};
             background: none;
             border: none;
@@ -190,7 +194,10 @@ export const Product = styled.div`
     &:hover .actions {
         opacity: 1;
         transform: translateX(0);
-        pointer-events: all;
+    }
+
+    &:hover .actions button{
+        pointer-events: auto;
     }
 
     &:last-child {
@@ -203,4 +210,13 @@ export const Edit = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 2vh;
+
+    button {
+        background-color: ${({ theme }) => theme.colors.primary};
+        font-weight: bold;
+        height: 7vh;
+        border-radius: 20px;
+        color: ${({ theme }) => theme.colors.text};
+    }
 `;

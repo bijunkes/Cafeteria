@@ -27,11 +27,11 @@ function Home({ toggleTheme }) {
     );
 
     const filteredMenuProducts = menuProducts
-    .filter(product =>
-        product.name
-            .toLowerCase()
-            .startsWith(search.toLowerCase())
-    );
+        .filter(product =>
+            product.name
+                .toLowerCase()
+                .startsWith(search.toLowerCase())
+        );
 
     const productsRef = useRef(null);
 
@@ -55,25 +55,25 @@ function Home({ toggleTheme }) {
     }
 
     const filteredProducts = products
-    .filter(product => {
-        const category = categories[activeIndex];
+        .filter(product => {
+            const category = categories[activeIndex];
 
-        if (category === "Favoritos") {
-            return product.recommended;
-        }
+            if (category === "Favoritos") {
+                return product.recommended;
+            }
 
-        const map = {
-            "Clássicos": "Classico",
-            "Com leite": "Com_leite",
-            "Especiais": "Especial",
-            "Gelados": "Gelado"
-        };
+            const map = {
+                "Clássicos": "Classico",
+                "Com leite": "Com_leite",
+                "Especiais": "Especial",
+                "Gelados": "Gelado"
+            };
 
-        return product.type === map[category];
-    })
-    .sort((a, b) =>
-        a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" })
-    );
+            return product.type === map[category];
+        })
+        .sort((a, b) =>
+            a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" })
+        );
 
     useEffect(() => {
         async function loadProducts() {
@@ -97,6 +97,31 @@ function Home({ toggleTheme }) {
         }
     }, [filtered]);
 
+
+    const [hasOverflow, setHasOverflow] = useState(false);
+    useEffect(() => {
+        if (productsRef.current) {
+            const el = productsRef.current;
+
+            const checkOverflow = () => {
+                const isOverflowing = el.scrollWidth > el.clientWidth;
+                setHasOverflow(isOverflowing);
+
+                if (isOverflowing) {
+                    el.scrollTo({
+                        left: 0,
+                        behavior: "smooth"
+                    });
+                }
+            };
+
+            checkOverflow();
+            window.addEventListener("resize", checkOverflow);
+
+            return () => window.removeEventListener("resize", checkOverflow);
+        }
+    }, [filteredProducts]);
+
     return (
         <BackgroundComponent>
             <HeroComponent
@@ -118,7 +143,7 @@ function Home({ toggleTheme }) {
                     ))}
                 </Classes>
 
-                <Products ref={productsRef}>
+                <Products ref={productsRef} hasOverflow={hasOverflow}>
                     {filteredProducts.map(product => (
                         <Product
                             key={product.id}

@@ -69,7 +69,7 @@ function Edit({ toggleTheme }) {
                 onAddClick={() => navigate("/products/create")}
             />
             <Container>
-                <ScrollContent style={{ marginTop: "3vh" }}>
+                <ScrollContent style={{ marginTop: "2vh" }}>
                     {filteredProducts.map(product => (
                         <Product key={product.id}>
                             <div className="info">
@@ -77,7 +77,6 @@ function Edit({ toggleTheme }) {
                             </div>
 
                             <div className="actions">
-
                                 <button
                                     onClick={() => navigate(`/products/edit-product/${product.id}`)}
                                     title="Editar produto"

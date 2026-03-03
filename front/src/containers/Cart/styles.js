@@ -49,11 +49,11 @@ export const Item = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2vh;
+    padding: 3vh;
     border-radius: 20px;
     width: 100%;
     height: 14vh;
-    gap: 2.5vh;
+    gap: 2vh;
     margin-bottom: auto;
 
     background-color: ${({ theme }) => theme.colors.secondary};
@@ -62,8 +62,8 @@ export const Item = styled.div`
 
 export const ItemImage = styled.div`
     overflow: hidden;
-    width: 10vh;
-    height: 10vh;
+    width: 9vh;
+    height: 9vh;
 
     img {
         width: 100%;

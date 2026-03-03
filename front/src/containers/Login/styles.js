@@ -19,7 +19,7 @@ export const Title = styled.h2`
     color: ${({ theme }) => theme.colors.text};
 `;
 
-export const Input = styled.div `
+export const Input = styled.div`
     height: 6vh;
     width: 100%;
     border-radius: 20px;
@@ -39,6 +39,12 @@ export const InputContent = styled.input`
     outline: none;
     background: transparent;
     color: ${({ theme }) => theme.colors.text};
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 `;
 
 export const ForgotPassword = styled.div`
