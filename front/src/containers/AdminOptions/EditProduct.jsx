@@ -34,14 +34,14 @@ function EditProduct({ toggleTheme }) {
     ];
 
     function handlePriceChange(size, value) {
-    setOptions(prev =>
-        prev.map(option =>
-            option.size === size
-                ? { ...option, price: value }
-                : option
-        )
-    );
-}
+        setOptions(prev =>
+            prev.map(option =>
+                option.size === size
+                    ? { ...option, price: value }
+                    : option
+            )
+        );
+    }
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -96,7 +96,7 @@ function EditProduct({ toggleTheme }) {
                 showSearch={false}
             />
             <Container>
-                <ScrollContent style={{marginBottom: "10vh"}}>
+                <ScrollContent style={{ marginBottom: "10vh" }}>
                     <Title>Editar produto</Title>
                     <Edit as="form" onSubmit={handleSubmit}>
                         <Input>
@@ -166,33 +166,33 @@ function EditProduct({ toggleTheme }) {
                         </Aside>
 
                         <Table>
-    <TableCell>P</TableCell>
-    <TableCell>M</TableCell>
-    <TableCell>G</TableCell>
+                            <TableCell>P</TableCell>
+                            <TableCell>M</TableCell>
+                            <TableCell>G</TableCell>
 
-    {["PEQUENO", "MEDIO", "GRANDE"].map((size) => {
-        const option = options.find(o => o.size === size);
+                            {["PEQUENO", "MEDIO", "GRANDE"].map((size) => {
+                                const option = options.find(o => o.size === size);
 
-        return (
-            <TableCell key={size}>
-                <InputContent
-                    type="number"
-                    step="0.01"
-                    value={option ? option.price : ""}
-                    onChange={e =>
-                        setOptions(prev =>
-                            prev.map(o =>
-                                o.size === size
-                                    ? { ...o, price: parseFloat(e.target.value) }
-                                    : o
-                            )
-                        )
-                    }
-                />
-            </TableCell>
-        );
-    })}
-</Table>
+                                return (
+                                    <TableCell key={size}>
+                                        <InputContent
+                                            type="number"
+                                            step="0.01"
+                                            value={option ? option.price : ""}
+                                            onChange={e =>
+                                                setOptions(prev =>
+                                                    prev.map(o =>
+                                                        o.size === size
+                                                            ? { ...o, price: parseFloat(e.target.value) }
+                                                            : o
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </TableCell>
+                                );
+                            })}
+                        </Table>
 
                         <Input>
                             <span className="material-icons-outlined" style={{ fontSize: "18px" }}>

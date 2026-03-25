@@ -39,6 +39,18 @@ function Orders({ toggleTheme }) {
         }
     }
 
+    async function markAsPending(id) {
+        try {
+            await api.patch(`/orders/${id}/status`, {
+                status: "pendente"
+            });
+
+            fetchOrders();
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     function formatSize(size) {
         if (!size) return "";
 
@@ -89,7 +101,10 @@ function Orders({ toggleTheme }) {
                             <OrderId>#{order.id}</OrderId>
                             <OrderInfo>
                                 <p><span>Cliente:</span> {order.customerName}</p>
-                                <p><span>Mesa: </span>{order.table}</p>
+                                <p>
+                                    <span>Mesa: </span>
+                                    {order.table ? order.table : "P/ levar"}
+                                </p>
                             </OrderInfo>
                             <ul>
                                 {order.items.map(item => (
@@ -98,13 +113,16 @@ function Orders({ toggleTheme }) {
                                     </li>
                                 ))}
                             </ul>
-                            {order.status !== "pronto" && (
-                                <ReadyButton onClick={() => markAsReady(order.id)}>
-                                    <span className="material-icons-outlined">
-                                        check_box
-                                    </span>
-                                </ReadyButton>
-                            )}
+                            <ReadyButton
+                                isReady={order.status === "pronto"}
+                                onClick={() =>
+                                    order.status === "pronto"
+                                        ? markAsPending(order.id)
+                                        : markAsReady(order.id)
+                                }
+                            >
+                                <span className="material-icons-outlined" />
+                            </ReadyButton>
                         </Order>
                     ))}
                 </ScrollContent>

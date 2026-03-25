@@ -154,6 +154,16 @@ export const ReadyButton = styled.button`
         transform: scale(1.1);
         opacity: 0.9;
     }
+
+    span::before {
+        content: ${({ isReady }) =>
+            isReady ? '"undo"' : '"check_box_outline_blank"'};
+    }
+
+    &:hover span::before {
+        content: ${({ isReady }) =>
+            isReady ? '"undo"' : '"check_box"'};
+    }
 `;
 
 export const Product = styled.div`

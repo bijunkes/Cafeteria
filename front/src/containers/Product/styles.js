@@ -95,7 +95,7 @@ export const Price = styled.div`
 
 export const Subtitle = styled.div`
     font-size: 14px;
-    margin-top: 1.5vh;
+    margin-top: 1vh;
     color: ${({ theme }) => theme.colors.text};
     font-weight: 600;
 

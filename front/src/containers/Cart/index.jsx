@@ -9,7 +9,7 @@ import { scroll } from "../../components/scroll";
 import { useCart } from "../../contexts/CartContext";
 
 import { Content } from "../Login/styles";
-import { ItemsWrapper, Title, Empty, Back, Item, ItemImage, ItemInfo, ItemActions, QuantityControl, RemoveButton, Summary, Total, FinishButton, Overlay, CheckoutModal, CheckoutInput, CheckoutButtons } from "./styles";
+import { ItemsWrapper, Title, Empty, Back, Item, ItemImage, ItemInfo, ItemActions, QuantityControl, RemoveButton, Summary, Total, FinishButton, Overlay, CheckoutModal, CheckoutInput, CheckoutOption, CheckoutButtons, Aside } from "./styles";
 
 import api from "../../services/api";
 
@@ -21,7 +21,10 @@ function Cart({ toggleTheme }) {
 
     const [showCheckout, setShowCheckout] = useState(false);
     const [customerName, setCustomerName] = useState("");
+    const [isTakeaway, setIsTakeaway] = useState(false);
     const [table, setTable] = useState("");
+
+    const canConfirm = customerName && (table || isTakeaway);
 
     const {
         cartItems,
@@ -33,8 +36,8 @@ function Cart({ toggleTheme }) {
     } = useCart();
 
     async function handleFinish() {
-        if (!customerName || !table) {
-            alert("Preencha nome e mesa");
+        if (!customerName) {
+            alert("Preencha os dados corretamente");
             return;
         }
 
@@ -43,14 +46,15 @@ function Cart({ toggleTheme }) {
 
             const orderData = {
                 customerName,
-                table,
+                table: isTakeaway ? null : table,
+                isTakeaway,
                 total,
                 items: cartItems.map(item => ({
                     productId: item.productId,
                     productOptionId: item.productOptionId,
                     quantity: item.quantity
                 }))
-            }
+            };
 
             await api.post("/orders", orderData);
 
@@ -151,22 +155,35 @@ function Cart({ toggleTheme }) {
                             onChange={(e) => setCustomerName(e.target.value)}
                         />
 
-                        <CheckoutInput
-                            type="text"
-                            placeholder="Mesa"
-                            value={table}
-                            onChange={(e) => setTable(e.target.value)}
-                        />
+                        <Aside>
+                            <CheckoutInput
+                                type="text"
+                                placeholder="Nº da mesa"
+                                value={table}
+                                onChange={(e) => {
+                                    setTable(e.target.value);
+                                    if (e.target.value) setIsTakeaway(false);
+                                }}
+                                disabled={isTakeaway}
+                            />
 
-                        <CheckoutButtons>
-                            <button onClick={() => setShowCheckout(false)}>
-                                Cancelar
-                            </button>
+                            <CheckoutOption
+                                type="button"
+                                active={isTakeaway}
+                                onClick={() => {
+                                    setIsTakeaway(!isTakeaway);
+                                    if (!isTakeaway) setTable("");
+                                }}
+                            >
+                                Levar
+                            </CheckoutOption>
+                        </Aside>
 
-                            <button onClick={handleFinish}>
-                                Confirmar
-                            </button>
-                        </CheckoutButtons>
+                        {canConfirm && (
+                            <CheckoutButtons onClick={handleFinish} disabled={loading}>
+                                {loading ? "Enviando..." : "Confirmar"}
+                            </CheckoutButtons>
+                        )}
                     </CheckoutModal>
                 </Overlay>
             )}

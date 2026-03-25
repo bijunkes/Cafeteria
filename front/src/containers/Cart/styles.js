@@ -70,6 +70,11 @@ export const ItemImage = styled.div`
         height: 100%;
         object-fit: cover;
     }
+
+    @media (max-width: 768px) {
+        width: 90%;
+        height: 90%;
+    }
 `;
 
 export const ItemInfo = styled.div`
@@ -191,17 +196,71 @@ export const CheckoutModal = styled.div`
 `;
 
 export const CheckoutInput = styled.input`
+    flex: 1;
+    width: 100%;
+    display: block;
+
     padding: 1vh;
     border-radius: 10px;
     border: 2px solid ${({ theme }) => theme.colors.text};
 `;
 
-export const CheckoutButtons = styled.div`
+export const CheckoutOption = styled.button`
+    flex: 1;
     display: flex;
-    justify-content: space-between;
-    gap: 1vh;
+    align-items: center;
+    justify-content: center;
 
-    button {
-        color: ${({ theme }) => theme.colors.text};
+    padding: 1vh;
+    border-radius: 10px;
+    border: 2px solid ${({ theme, active }) =>
+        active ? theme.colors.primary : theme.colors.text};
+
+    background: ${({ theme, active }) =>
+        active ? "theme.colors.primary" : "transparent"};
+
+    color: ${({ theme, active }) =>
+        active ? "white" : theme.colors.text};
+
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+        opacity: 0.8;
     }
+`;
+
+export const CheckoutButtons = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+    height: 6vh;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+
+    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.secondary};
+
+    transition: 0.2s;
+
+    opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
+    pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+`;
+
+export const Aside = styled.div`
+    display: flex;
+    gap: 1vh;
+    width: 100%;
 `;

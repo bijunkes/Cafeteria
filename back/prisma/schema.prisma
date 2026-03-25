@@ -48,7 +48,7 @@ model Order {
   id Int @id @default(autoincrement())
 
   customerName String
-  table String
+  table String?
 
   total Float
 
