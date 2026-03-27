@@ -64,16 +64,12 @@ export const ItemImage = styled.div`
     overflow: hidden;
     width: 9vh;
     height: 9vh;
+    flex-shrink: 0;
 
     img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-    }
-
-    @media (max-width: 768px) {
-        width: 90%;
-        height: 90%;
     }
 `;
 

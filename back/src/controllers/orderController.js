@@ -31,7 +31,6 @@ export async function createOrder(req, res) {
         return res.status(201).json(order);
 
     } catch (err) {
-        console.error(err);
         return res.status(500).json({ error: "Erro ao criar pedido" });
     }
 }
@@ -55,7 +54,6 @@ export async function getAllOrders(req, res) {
         return res.json(orders);
 
     } catch (err) {
-        console.error(err);
         return res.status(500).json({error: "Erro ao buscar pedidos"});
     }
 }
@@ -76,7 +74,6 @@ export async function updateOrderStatus(req, res) {
 
         return res.json(order);
     } catch (err) {
-        console.log(err);
         return res.status(500).json({error: "Erro ao atualizar status"});
     }
 }

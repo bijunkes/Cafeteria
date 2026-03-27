@@ -21,7 +21,6 @@ function Edit({ toggleTheme }) {
             const response = await api.get("/products");
             setProducts(response.data);
         } catch (err) {
-            console.log(err);
         }
     }
 
@@ -39,7 +38,6 @@ function Edit({ toggleTheme }) {
                 prev.filter(product => product.id !== id)
             );
         } catch (err) {
-            console.log(err);
             alert("Erro ao excluir produto");
         }
     }

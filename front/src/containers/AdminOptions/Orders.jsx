@@ -23,7 +23,6 @@ function Orders({ toggleTheme }) {
             const response = await api.get("/orders");
             setOrders(response.data);
         } catch (err) {
-            console.log(err);
         }
     }
 
@@ -35,7 +34,6 @@ function Orders({ toggleTheme }) {
 
             fetchOrders();
         } catch (err) {
-            console.log(err);
         }
     }
 
@@ -47,7 +45,6 @@ function Orders({ toggleTheme }) {
 
             fetchOrders();
         } catch (err) {
-            console.log(err);
         }
     }
 

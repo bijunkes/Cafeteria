@@ -49,7 +49,6 @@ export async function create(req, res) {
 
         return res.status(201).json(product);
     } catch (error) {
-        console.error("ERRO AO CRIAR PRODUTO:", error);
         return res.status(500).json({ error: "Erro ao cadastrar produto" });
     }
 }
@@ -132,7 +131,6 @@ export async function update(req, res) {
         return res.status(200).json(product);
 
     } catch (err) {
-        console.log(err);
         return res.status(500).json({ error: "Erro ao atualizar produto" });
     }
 }

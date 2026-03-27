@@ -43,7 +43,6 @@ function Product({ toggleTheme }) {
                 const response = await api.get(`/products/${id}`);
                 setProduct(response.data);
             } catch (err) {
-                console.log(err)
             }
         }
         fetchProduct();

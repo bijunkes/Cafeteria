@@ -65,7 +65,6 @@ function EditProduct({ toggleTheme }) {
             navigate("/products/edit");
 
         } catch (err) {
-            console.log(err);
             alert("Erro ao atualizar produto");
         }
     }
@@ -74,8 +73,6 @@ function EditProduct({ toggleTheme }) {
         async function loadProduct() {
             const res = await api.get(`/products/${id}`);
             const product = res.data;
-
-            console.log(product.options);
 
             setName(product.name);
             setDescription(product.description);

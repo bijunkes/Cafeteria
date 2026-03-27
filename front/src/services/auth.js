@@ -9,11 +9,19 @@ export const authService = {
         return api.post("/auth/register", data);
     },
 
-    me() {
-        return api.get("/users/me");
-    }, 
+    recoverPassword(data) {
+        return api.post("/auth/recover-password", data);
+    },
 
-    me(data) {
-        return api.put("/users/me");
+    resetPassword(data) {
+        return api.post("/auth/reset-password", data);
+    },
+
+    getMe() {
+        return api.get("/users/me");
+    },
+
+    updateMe(data) {
+        return api.put("/users/me", data);
     }
-}
+};

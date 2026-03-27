@@ -16,6 +16,9 @@ model User {
 
   orders Order[]
   reviews Review[]
+
+  resetToken         String?
+  resetTokenExpires  DateTime?
 }
 
 model Product {

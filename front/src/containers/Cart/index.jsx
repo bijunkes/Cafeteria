@@ -63,7 +63,6 @@ function Cart({ toggleTheme }) {
             navigate("/");
 
         } catch (err) {
-            console.log(err);
             alert("Erro ao finalizar pedido");
         } finally {
             setLoading(false);

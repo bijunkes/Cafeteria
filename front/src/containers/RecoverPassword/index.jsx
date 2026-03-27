@@ -1,43 +1,46 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
+import BackgroundComponent from '../../components/Background';
+import { Container } from '../../components/Background/styles';
+import HeroComponent from '../../components/Hero';
+import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
 
-import BackgroundComponent from "../../components/Background";
-import { Container } from "../../components/Background/styles.js";
-import HeroComponent from "../../components/Hero";
-import FooterComponent from "../../components/Footer";
+import { Content, Title, Input, InputContent, ForgotPassword, Button, Sign } from "../Login/styles"
+import { authService } from '../../services/auth';
 
-import { Content, Title, Input, InputContent, Button, Sign } from '../Login/styles.js';
-import { authService } from "../../services/auth.js";
-import { useAuth } from "../../contexts/authContext.jsx";
-
-function SignUp({ toggleTheme, themeAtual }) {
+function RecoverPassword({ toggleTheme }) {
     const showBars = scroll();
     const navigate = useNavigate();
-    const { login } = useAuth();
 
-    const [showPassword, setShowPassword] = useState(false);
+    const { token } = useParams();
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    async function handleSignUp() {
-        if (password !== confirmPassword) {
-            alert("As senhas não coincidem");
-            return;
+    const [showPassword, setShowPassword] = useState(false);
+
+    async function handleReset() {
+        if (!password || !confirmPassword) {
+            return alert("Preencha todos os campos");
         }
+
+        if (password !== confirmPassword) {
+            return alert("As senhas não coincidem");
+        }
+
         try {
-            const { data } = await authService.register({
-                name, email, password
+            await authService.resetPassword({
+                token,
+                password
             });
 
-            login(data.user, data.token);
-            navigate("/profile");
+            alert("Senha redefinida com sucesso");
+            navigate("/login");
+
         } catch (err) {
-            alert(err.response?.data?.error || "Erro ao cadastrar");
+            alert(err.response?.data?.error || "Erro ao redefinir senha");
         }
     }
 
@@ -51,26 +54,8 @@ function SignUp({ toggleTheme, themeAtual }) {
             <Container>
                 <Content>
                     <Title>
-                        Sign Up
+                        Redefinir senha
                     </Title>
-
-                    <Input>
-                        <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
-                            {"person"}
-                        </span>
-                        <InputContent placeholder="Nome"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)} />
-                    </Input>
-
-                    <Input>
-                        <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
-                            {"mail"}
-                        </span>
-                        <InputContent placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)} />
-                    </Input>
 
                     <Input>
                         <span className="material-icons-outlined" style={{ fontSize: "18px" }}>
@@ -110,19 +95,15 @@ function SignUp({ toggleTheme, themeAtual }) {
                         </span>
                     </Input>
 
-                    <Button onClick={handleSignUp}>Sign Up</Button>
+                    <Button onClick={() => handleReset()}>Alterar senha</Button>
 
-                    <Sign>
-                        Já possui cadastro?
-                        <span onClick={() => navigate("/login")}> Sign In</span>
-                    </Sign>
                 </Content>
             </Container>
             <FooterComponent
                 visible={showBars}
             />
         </BackgroundComponent>
-    )
+    );
 }
 
-export default SignUp;
+export default RecoverPassword;

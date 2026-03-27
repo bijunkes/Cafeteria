@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import prisma from "../../prisma/client.js";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import nodemailer from "nodemailer";
 
 export async function register(req, res) {
     try {
@@ -77,5 +79,94 @@ export async function login(req, res) {
         });
     } catch (err) {
         res.status(500).json({ error: "Erro no servidor" });
+    }
+}
+
+export async function recoverPassword(req, res) {
+    try {
+        const {email} = req.body;
+
+        if (!email) {
+            return res.status(400).json({error: "Email é obrigatório"});
+        }
+
+        const user = await prisma.user.findUnique({
+            where: {email: email.toLowerCase().trim()}
+        });
+
+        if (!user) {
+            return res.json({message: "Se o email existir, instruções serão enviadas"});
+        }
+
+        const token = crypto.randomBytes(20).toString("hex");
+
+        await prisma.user.update({
+            where: {id: user.id},
+            data: {
+                resetToken: token,
+                resetTokenExpires: new Date(Date.now() + 3600000)
+            }
+        });
+
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        const link = `http://localhost:5173/reset-password/${token}`;
+
+        await transporter.sendMail({
+            from: `"Cafe Shop" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "Recuperação de senha",
+            text: `Clique no link para redefinir sua senha: ${link}`
+        });
+
+        return res.json({ message: "Email enviado" });
+    } catch (err) {
+        return res.status(500).json({ error: "Erro ao enviar email" });
+    }
+}
+
+export async function resetPassword(req, res) {
+    try {
+        const { token, password } = req.body;
+
+        if (!token || !password) {
+            return res.status(400).json({ error: "Dados obrigatórios" });
+        }
+
+        const user = await prisma.user.findFirst({
+            where: {
+                resetToken: token,
+                resetTokenExpires: {
+                    gte: new Date()
+                }
+            }
+        });
+
+        if (!user) {
+            return res.status(400).json({ error: "Token inválido ou expirado" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                password: hashedPassword,
+                resetToken: null,
+                resetTokenExpires: null
+            }
+        });
+
+        return res.json({ message: "Senha redefinida com sucesso" });
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: "Erro ao redefinir senha" });
     }
 }

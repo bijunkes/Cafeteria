@@ -14,6 +14,7 @@ import { CartProvider } from './contexts/CartContext';
 import Home from './containers/Home';
 import Product from './containers/Product';
 import Login from './containers/Login';
+import RecoverPassword from './containers/RecoverPassword';
 import Profile from './containers/Profile';
 import SignUp from './containers/SignUp';
 import Products from './containers/AdminOptions';
@@ -61,9 +62,19 @@ function App() {
                                 }
                             />
 
-                            <Route path="/login" element={
-                                <Login toggleTheme={toggleTheme} />
-                            } />
+                            <Route 
+                                path="/login"
+                                element={
+                                    <Login toggleTheme={toggleTheme} />
+                                }
+                            />
+
+                            <Route 
+                                path="/reset-password/:token"
+                                element={
+                                    <RecoverPassword toggleTheme={toggleTheme} />
+                                }
+                            />
 
                             <Route
                                 path="/profile"

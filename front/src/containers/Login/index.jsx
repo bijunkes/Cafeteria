@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/authContext';
 
@@ -9,6 +9,7 @@ import FooterComponent from '../../components/Footer';
 import { scroll } from "../../components/scroll";
 
 import { Content, Title, Input, InputContent, ForgotPassword, Button, Sign } from './styles';
+import { Overlay, CheckoutModal, CheckoutInput, CheckoutButtons } from "../Cart/styles";
 import { authService } from '../../services/auth';
 
 function Login({ toggleTheme }) {
@@ -21,6 +22,9 @@ function Login({ toggleTheme }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [showRecover, setShowRecover] = useState(false);
+    const [recoverEmail, setRecoverEmail] = useState("");
+
     async function handleLogin() {
         try {
             const { data } = await authService.login({
@@ -32,6 +36,29 @@ function Login({ toggleTheme }) {
             alert(err.response?.data?.error || "Erro ao fazer login");
         }
     }
+
+    async function handleRecoverPassword() {
+        try {
+            const emailToSend = recoverEmail || email;
+
+            if (!emailToSend) {
+                return alert("Digite um email para recuperar a senha");
+            }
+
+            await authService.recoverPassword({ email: emailToSend });
+
+            alert("Email de recuperação enviado");
+            setShowRecover(false);
+        } catch (err) {
+            alert(err.response?.data?.error || "Erro ao recuperar senha");
+        }
+    }
+
+    useEffect(() => {
+        if (showRecover && email) {
+            setRecoverEmail(email);
+        }
+    }, [showRecover]);
 
     return (
         <BackgroundComponent>
@@ -74,7 +101,9 @@ function Login({ toggleTheme }) {
                         </span>
                     </Input>
 
-                    <ForgotPassword>Esqueceu a senha?</ForgotPassword>
+                    <ForgotPassword onClick={() => setShowRecover(prev => !prev)}>
+                        Esqueceu a senha?
+                    </ForgotPassword>
 
                     <Button onClick={() => handleLogin()}>Login</Button>
 
@@ -87,6 +116,26 @@ function Login({ toggleTheme }) {
             <FooterComponent
                 visible={showBars}
             />
+
+            {showRecover && (
+                <Overlay onClick={() => setShowRecover(false)}>
+                    <CheckoutModal onClick={(e) => e.stopPropagation()}>
+                        <h3>Recuperar senha</h3>
+
+                        <CheckoutInput
+                            type="email"
+                            placeholder="Digite seu email"
+                            value={recoverEmail}
+                            onChange={(e) => setRecoverEmail(e.target.value)}
+                        />
+
+                        <CheckoutButtons onClick={handleRecoverPassword}>
+                            Enviar recuperação
+                        </CheckoutButtons>
+                    </CheckoutModal>
+                </Overlay>
+            )}
+
         </BackgroundComponent>
     );
 }
