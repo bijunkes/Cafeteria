@@ -54,7 +54,6 @@ export const Item = styled.div`
     width: 100%;
     height: 14vh;
     gap: 2vh;
-    margin-bottom: auto;
 
     background-color: ${({ theme }) => theme.colors.secondary};
     color: ${({ theme }) => theme.colors.text};
@@ -179,6 +178,31 @@ export const Overlay = styled.div`
     z-index: 999;
 `;
 
+export const ModalHeader = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+
+    span {
+        font-size: 22px;
+        color: ${({ theme }) => theme.colors.text};
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+    }
+`;
+
 export const CheckoutModal = styled.div`
     background: ${({ theme }) => theme.colors.background};
     padding: 4vh;
@@ -216,7 +240,7 @@ export const CheckoutOption = styled.button`
         active ? "theme.colors.primary" : "transparent"};
 
     color: ${({ theme, active }) =>
-        active ? "white" : theme.colors.text};
+        active ? theme.colors.text : theme.colors.text};
 
     font-size: 14px;
     cursor: pointer;

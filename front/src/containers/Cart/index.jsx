@@ -9,7 +9,7 @@ import { scroll } from "../../components/scroll";
 import { useCart } from "../../contexts/CartContext";
 
 import { Content } from "../Login/styles";
-import { ItemsWrapper, Title, Empty, Back, Item, ItemImage, ItemInfo, ItemActions, QuantityControl, RemoveButton, Summary, Total, FinishButton, Overlay, CheckoutModal, CheckoutInput, CheckoutOption, CheckoutButtons, Aside } from "./styles";
+import { ItemsWrapper, Title, Empty, Back, Item, ItemImage, ItemInfo, ItemActions, QuantityControl, RemoveButton, Summary, Total, FinishButton, Overlay, CheckoutModal, CheckoutButtons, ModalHeader } from "./styles";
 
 import api from "../../services/api";
 
@@ -23,6 +23,10 @@ function Cart({ toggleTheme }) {
     const [customerName, setCustomerName] = useState("");
     const [isTakeaway, setIsTakeaway] = useState(false);
     const [table, setTable] = useState("");
+
+    const [step, setStep] = useState(1);
+    const [context, setContext] = useState(null); // "LOCAL" | "HOME"
+    const [type, setType] = useState(null); // "DINE_IN" | "TAKEAWAY" | "DELIVERY"
 
     const canConfirm = customerName && (table || isTakeaway);
 
@@ -142,47 +146,77 @@ function Cart({ toggleTheme }) {
                 visible={showBars}
                 onProfileClick={() => navigate("/profile")}
             />
+
             {showCheckout && (
                 <Overlay onClick={() => setShowCheckout(false)}>
                     <CheckoutModal onClick={(e) => e.stopPropagation()}>
-                        <h3>Finalizar Pedido</h3>
 
-                        <CheckoutInput
-                            type="text"
-                            placeholder="Seu nome"
-                            value={customerName}
-                            onChange={(e) => setCustomerName(e.target.value)}
-                        />
+                        <ModalHeader>
+                            {step > 1 && (
+                                <button onClick={() => setStep(step - 1)}>
+                                    <span className="material-icons-outlined">
+                                        arrow_back
+                                    </span>
+                                </button>
+                            )}
 
-                        <Aside>
-                            <CheckoutInput
-                                type="text"
-                                placeholder="Nº da mesa"
-                                value={table}
-                                onChange={(e) => {
-                                    setTable(e.target.value);
-                                    if (e.target.value) setIsTakeaway(false);
-                                }}
-                                disabled={isTakeaway}
-                            />
+                            <h3>
+                                {step === 1 && "Como deseja consumir?"}
+                                {step === 2 && context === "LOCAL" && "Você vai consumir como?"}
+                                {step === 2 && context === "HOME" && "Como deseja receber?"}
+                            </h3>
+                        </ModalHeader>
 
-                            <CheckoutOption
-                                type="button"
-                                active={isTakeaway}
-                                onClick={() => {
-                                    setIsTakeaway(!isTakeaway);
-                                    if (!isTakeaway) setTable("");
-                                }}
-                            >
-                                Levar
-                            </CheckoutOption>
-                        </Aside>
+                        {step === 1 && (
+                            <>
+                                <CheckoutButtons onClick={() => {
+                                    setContext("LOCAL");
+                                    setStep(2);
+                                }}>
+                                    Estou no local
+                                </CheckoutButtons>
 
-                        {canConfirm && (
-                            <CheckoutButtons onClick={handleFinish} disabled={loading}>
-                                {loading ? "Enviando..." : "Confirmar"}
-                            </CheckoutButtons>
+                                <CheckoutButtons onClick={() => {
+                                    setContext("HOME");
+                                    setStep(2);
+                                }}>
+                                    Estou afora
+                                </CheckoutButtons>
+                            </>
                         )}
+
+                        {step === 2 && context === "LOCAL" && (
+                            <>
+                                <CheckoutButtons onClick={() => {
+                                    setType("DINE_IN");
+                                }}>
+                                    Comer aqui
+                                </CheckoutButtons>
+
+                                <CheckoutButtons onClick={() => {
+                                    setType("TAKEAWAY");
+                                }}>
+                                    Levar
+                                </CheckoutButtons>
+                            </>
+                        )}
+
+                        {step === 2 && context === "HOME" && (
+                            <>
+                                <CheckoutButtons onClick={() => {
+                                    setType("DELIVERY");
+                                }}>
+                                    Entrega
+                                </CheckoutButtons>
+
+                                <CheckoutButtons onClick={() => {
+                                    setType("TAKEAWAY");
+                                }}>
+                                    Retirar no local
+                                </CheckoutButtons>
+                            </>
+                        )}
+
                     </CheckoutModal>
                 </Overlay>
             )}
